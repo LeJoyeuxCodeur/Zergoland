@@ -1,4 +1,3 @@
-
 import java.awt.GridLayout;
 
 import javax.swing.JFrame;
@@ -9,14 +8,14 @@ public class FenetreDeJeu extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private Case[][] map;
 	private JPanel[][] panels;
-
+	
 	public FenetreDeJeu() {
 		super("ZergoLand");
+		setLayout(new GridLayout(Constante.CASES_X, Constante.CASES_Y));
 		initMap();
 		initFenetre();
 	}
 	private void initFenetre() {
-		setLayout(new GridLayout(Constante.CASES_X, Constante.CASES_Y));
 		setSize(Constante.X, Constante.Y);
 		setLocationRelativeTo(null);
 		setResizable(false);

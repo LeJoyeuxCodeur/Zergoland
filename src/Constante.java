@@ -13,8 +13,9 @@ public class Constante {
 	public static ImageIcon caseVide = new ImageIcon("ressources/images/cases/CaseVide.png");
 	public static ImageIcon casePerso = new ImageIcon("ressources/images/cases/CasePerso.png");
 	public static ImageIcon caseArbre = new ImageIcon("ressources/images/cases/CaseArbre.png");
-	public static int HP_INI=100;
-	public static int MP_INI=100;
-	public static int XP_INI=0;
-	public static int OR_INI=0;
+	public static int HP_BASE = 100;
+	public static int MP_BASE = 100;
+	public static int XP_BASE = 0;
+	public static int OR_BASE = 0;
+	public static int LVL_BASE = 1;
 }

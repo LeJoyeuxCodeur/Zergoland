@@ -1,23 +1,22 @@
 import java.util.HashMap;
-
+import java.util.Map;
 
 public class Inventaire {
+	private Map<Item, Integer> inventaire;
 
-	private HashMap<Item, Integer> hm;
-	
 	public Inventaire() {
-		setHm(new HashMap<Item, Integer>());
+		inventaire = new HashMap<Item, Integer>();
 	}
 	public void ajoutItem(Item i, int a) {
-		hm.put(i, a);
+		inventaire.put(i, a);
 	}
 	public void retirerItem(Item i) {
-		hm.remove(i);
+		inventaire.remove(i);
 	}
-	public HashMap<Item, Integer> getHm() {
-		return hm;
+	public Map<Item, Integer> getInventaire() {
+		return inventaire;
 	}
-	public void setHm(HashMap<Item, Integer> hm) {
-		this.hm = hm;
+	public void setHm(HashMap<Item, Integer> inventaire) {
+		this.inventaire = inventaire;
 	}
 }
