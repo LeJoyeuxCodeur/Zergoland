@@ -14,14 +14,17 @@ public class FenetreDeJeu extends JFrame {
 
 	public FenetreDeJeu() {
 		super("ZergoLand");
+		initFenetre();
+		initMap();
+		addMap();
+	}
+	private void initFenetre() {
 		setLayout(new GridLayout(Constante.CASES_X, Constante.CASES_Y));
 		setSize(Constante.X, Constante.Y); // Nombre de pixels a retirer
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		initMap();
-		addMap();
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
 	}
 	public void initMap() {
 		map = new Case[Constante.CASES_X][Constante.CASES_Y];
