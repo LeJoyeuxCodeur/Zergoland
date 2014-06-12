@@ -1,4 +1,5 @@
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -12,11 +13,10 @@ public class FenetreDeJeu extends JFrame {
 	public FenetreDeJeu() {
 		super("ZergoLand");
 		initMap();
-		addMap();
 		initFenetre();
 	}
 	private void initFenetre() {
-		setLayout(new GridLayout(Constante.CASES_X, Constante.CASES_Y));
+		setLayout(new GridBagLayout());
 		setSize(Constante.X, Constante.Y); // Nombre de pixels a retirer
 		setLocationRelativeTo(null);
 		setResizable(false);
@@ -24,21 +24,18 @@ public class FenetreDeJeu extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	public void initMap() {
+		GridBagConstraints constraint = new GridBagConstraints();
 		map = new Case[Constante.CASES_X][Constante.CASES_Y];
 		panels = new JPanel[Constante.CASES_X][Constante.CASES_Y];
 
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
+				constraint.gridx = i;
+				constraint.gridy = j;
 				map[i][j] = new Case(Constante.caseArbre);
 				panels[i][j] = new JPanel();
 				panels[i][j].add(new JLabel(map[i][j].getSkin()));
-			}
-		}
-	}
-	public void addMap() {
-		for (int i = 0; i < map.length; i++) {
-			for (int j = 0; j < map[0].length; j++) {
-				add(panels[i][j]);
+				getContentPane().add(panels[i][j], constraint);
 			}
 		}
 	}
