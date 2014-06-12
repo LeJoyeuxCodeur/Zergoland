@@ -1,23 +1,15 @@
-import java.awt.Image;
+import javax.swing.ImageIcon;
 
 public class Case {
-	private boolean obstacle;
-	private Image skin;
+	private ImageIcon skin;
 
-	public Case(Image skin, boolean obstacle) {
+	public Case(ImageIcon skin) {
 		this.skin = skin;
-		this.obstacle = obstacle;
 	}
-	public boolean isObstacle() {
-		return obstacle;
-	}
-	public void setObstacle(boolean obstacle) {
-		this.obstacle = obstacle;
-	}
-	public Image getSkin() {
+	public ImageIcon getSkin() {
 		return skin;
 	}
-	public void setSkin(Image skin) {
+	public void setSkin(ImageIcon skin) {
 		this.skin = skin;
 	}
 }

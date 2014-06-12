@@ -6,4 +6,6 @@ public class Constante {
 	final static int MARGE = 150;
 	public static int X = d.width - MARGE;
 	public static int Y = d.height - MARGE;
+	public static int CASES_X = 20;
+	public static int CASES_Y = 30;
 }
