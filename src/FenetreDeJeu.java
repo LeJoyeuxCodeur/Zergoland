@@ -1,6 +1,5 @@
 import java.awt.GridLayout;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -8,15 +7,13 @@ import javax.swing.JPanel;
 public class FenetreDeJeu extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private Case[][] map;
-	private ImageIcon caseVide = new ImageIcon("ressources/images/cases/CaseVide.png");
-	private ImageIcon casePerso = new ImageIcon("ressources/images/cases/CasePerso.png");
-	private ImageIcon caseArbre = new ImageIcon("ressources/images/cases/CaseArbre.png");
+	private JPanel[][] panels;
 
 	public FenetreDeJeu() {
 		super("ZergoLand");
-		initFenetre();
 		initMap();
 		addMap();
+		initFenetre();
 	}
 	private void initFenetre() {
 		setLayout(new GridLayout(Constante.CASES_X, Constante.CASES_Y));
@@ -24,21 +21,24 @@ public class FenetreDeJeu extends JFrame {
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	public void initMap() {
 		map = new Case[Constante.CASES_X][Constante.CASES_Y];
+		panels = new JPanel[Constante.CASES_X][Constante.CASES_Y];
 
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
-				map[i][j] = new Case(caseVide);
+				map[i][j] = new Case(Constante.caseArbre);
+				panels[i][j] = new JPanel();
+				panels[i][j].add(new JLabel(map[i][j].getSkin()));
 			}
 		}
 	}
 	public void addMap() {
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
-				add(new JPanel().add(new JLabel(map[i][j].getSkin())));
+				add(panels[i][j]);
 			}
 		}
 	}
