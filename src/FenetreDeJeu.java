@@ -32,7 +32,6 @@ public class FenetreDeJeu extends JFrame {
 				map[i][j] = new Case(Constante.caseArbre);
 				panels[i][j] = new JPanel();
 				panels[i][j].add(new JLabel(map[i][j].getSkin()));
-				panels[i][j].setSize(10, 10);
 				add(panels[i][j]);
 			}
 		}
