@@ -17,7 +17,7 @@ public class FenetreDeJeu extends JFrame {
 	}
 	private void initFenetre() {
 		setLayout(new GridLayout(Constante.CASES_X, Constante.CASES_Y));
-		setSize(Constante.X, Constante.Y); // Nombre de pixels a retirer
+		setSize(Constante.X, Constante.Y);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);
