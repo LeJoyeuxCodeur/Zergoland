@@ -1,5 +1,5 @@
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,26 +16,24 @@ public class FenetreDeJeu extends JFrame {
 		initFenetre();
 	}
 	private void initFenetre() {
-		setLayout(new GridBagLayout());
-		setSize(Constante.X, Constante.Y); // Nombre de pixels a retirer
+		setLayout(new GridLayout(Constante.CASES_X, Constante.CASES_Y));
+		setSize(Constante.X, Constante.Y);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	public void initMap() {
-		GridBagConstraints constraint = new GridBagConstraints();
 		map = new Case[Constante.CASES_X][Constante.CASES_Y];
 		panels = new JPanel[Constante.CASES_X][Constante.CASES_Y];
 
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
-				constraint.gridx = i;
-				constraint.gridy = j;
 				map[i][j] = new Case(Constante.caseArbre);
 				panels[i][j] = new JPanel();
 				panels[i][j].add(new JLabel(map[i][j].getSkin()));
-				getContentPane().add(panels[i][j], constraint);
+				panels[i][j].setSize(10, 10);
+				add(panels[i][j]);
 			}
 		}
 	}
