@@ -1,29 +1,23 @@
 import java.awt.Image;
 
-
 public class Case {
-	
-	private boolean franchissable;
-	private Image i;
-	
-	public Case(Image i, boolean f) {
-		this.i=i;
-		this.franchissable=f;
-	}
+	private boolean obstacle;
+	private Image skin;
 
-	public boolean isFranchissable() {
-		return franchissable;
+	public Case(Image skin, boolean obstacle) {
+		this.skin = skin;
+		this.obstacle = obstacle;
 	}
-
-	public void setFranchissable(boolean franchissable) {
-		this.franchissable = franchissable;
+	public boolean isObstacle() {
+		return obstacle;
 	}
-
-	public Image getImage() {
-		return i;
+	public void setObstacle(boolean obstacle) {
+		this.obstacle = obstacle;
 	}
-
-	public void setImage(Image i) {
-		this.i = i;
+	public Image getSkin() {
+		return skin;
+	}
+	public void setSkin(Image skin) {
+		this.skin = skin;
 	}
 }

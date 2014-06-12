@@ -5,7 +5,7 @@ public class FenetreDeJeu extends JFrame {
 
 	public FenetreDeJeu() {
 		super("ZergoLand");
-		setSize(Constante.X - 150, Constante.Y - 150); // Nombre de pixels a retirer
+		setSize(Constante.X, Constante.Y); // Nombre de pixels a retirer
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);
