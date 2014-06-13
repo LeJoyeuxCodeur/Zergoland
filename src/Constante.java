@@ -9,10 +9,10 @@ public class Constante {
 	public static final ImageIcon caseVide = new ImageIcon("ressources/images/cases/CaseVide.png");
 	public static final ImageIcon casePerso = new ImageIcon("ressources/images/cases/Bryan2.png");
 	public static final ImageIcon caseArbre = new ImageIcon("ressources/images/cases/CaseArbre.png");
-	public static final ImageIcon mhg = new ImageIcon("ressources/images/cases/Mhg.png");
-	public static final ImageIcon mhd = new ImageIcon("ressources/images/cases/Mhd.png");
-	public static final ImageIcon mbg = new ImageIcon("ressources/images/cases/Mbg.png");
-	public static final ImageIcon mbd = new ImageIcon("ressources/images/cases/Mbd.png");
+	public static final ImageIcon maisonHG = new ImageIcon("ressources/images/cases/MaisonHG.png");
+	public static final ImageIcon maisonHD = new ImageIcon("ressources/images/cases/MaisonHD.png");
+	public static final ImageIcon maisonBG = new ImageIcon("ressources/images/cases/MaisonBG.png");
+	public static final ImageIcon maisonBD = new ImageIcon("ressources/images/cases/MaisonBD.png");
 	public static final ImageIcon coffre = new ImageIcon("ressources/images/cases/coffre.png");
 	public static final int HP_BASE = 100;
 	public static final int MP_BASE = 100;
