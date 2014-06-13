@@ -1,7 +1,6 @@
 import javax.swing.ImageIcon;
 
 public class Constante {
-	final static int MARGE = 150;
 	public static int CASES_X = 15;
 	public static int CASES_Y = 25;
 	public static ImageIcon caseVide = new ImageIcon("ressources/images/cases/CaseVide.png");
