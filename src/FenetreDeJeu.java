@@ -10,9 +10,11 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.border.TitledBorder;
 
 public class FenetreDeJeu extends JFrame {
@@ -24,6 +26,7 @@ public class FenetreDeJeu extends JFrame {
 	private MoveListener ecouteurDepl = new MoveListener();
 	private Dimension coord;
 	private JPanel panelMap, panelCarac;
+	private Personnage perso;
 
 	public FenetreDeJeu() {
 		super("ZergoLand");
@@ -37,8 +40,14 @@ public class FenetreDeJeu extends JFrame {
 	private void initCarac() {
 		String s = "Caractéristiques";
 		Font f = new Font("Arial", Font.PLAIN, 18);
+		JProgressBar bar = new JProgressBar(0, perso.getHpMax());
+		
+		bar.setValue(perso.getHp());
 		panelCarac = new JPanel();
+		panelCarac.setLayout(new BoxLayout(panelCarac, BoxLayout.Y_AXIS));
 		panelCarac.setBorder(BorderFactory.createTitledBorder(null, s, TitledBorder.CENTER, TitledBorder.TOP, f, Color.BLACK));
+		panelCarac.add(new JLabel("Vitalité"));
+		panelCarac.add(bar);
 		add(panelCarac);
 	}
 	private void initListener() {
@@ -78,6 +87,7 @@ public class FenetreDeJeu extends JFrame {
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
 				if (i == 3 && j == 8) {
+					perso = new Personnage("Personnage_Test");
 					map[i][j] = new Case(Constante.casePerso);
 					coord = new Dimension(i, j);
 				}
