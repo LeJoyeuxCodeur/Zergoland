@@ -1,6 +1,6 @@
 public class Personnage {
 	private String nom;
-	private int xp, hp, mp, hpMax, or, lvl;
+	private int xp, hp, mp, hpMax, mpMax, or, lvl;
 	private Inventaire bag;
 
 	public Personnage(String nom) {
@@ -10,6 +10,7 @@ public class Personnage {
 		lvl = Constante.LVL_BASE;
 		hpMax = 90 + lvl;
 		mp = Constante.MP_BASE;
+		mpMax = Constante.MP_MAX;
 		or = Constante.OR_BASE;
 		bag = new Inventaire();
 	}
@@ -60,5 +61,11 @@ public class Personnage {
 	}
 	public void setBag(Inventaire bag) {
 		this.bag = bag;
+	}
+	public void setManaMax(int mpMax) {
+		this.mpMax = mpMax;
+	}
+	public int getManaMax() {
+		return mpMax;
 	}
 }

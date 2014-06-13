@@ -40,14 +40,51 @@ public class FenetreDeJeu extends JFrame {
 	private void initCarac() {
 		String s = "Caractéristiques";
 		Font f = new Font("Arial", Font.PLAIN, 18);
-		JProgressBar bar = new JProgressBar(0, perso.getHpMax());
+		JProgressBar vita = new JProgressBar(0, perso.getHpMax());
+		JProgressBar mana = new JProgressBar(0, perso.getManaMax());
+		JLabel tmp;
 		
-		bar.setValue(perso.getHp());
+		// Panel Carac
 		panelCarac = new JPanel();
 		panelCarac.setLayout(new BoxLayout(panelCarac, BoxLayout.Y_AXIS));
 		panelCarac.setBorder(BorderFactory.createTitledBorder(null, s, TitledBorder.CENTER, TitledBorder.TOP, f, Color.BLACK));
-		panelCarac.add(new JLabel("Vitalité"));
-		panelCarac.add(bar);
+		panelCarac.add(new JLabel(" "));
+		
+		// Nom
+		tmp = new JLabel(perso.getNom());
+		tmp.setForeground(Color.RED);
+		tmp.setFont(new Font("Arial", Font.ITALIC, 15));
+		panelCarac.add(tmp);
+		panelCarac.add(new JLabel(" "));
+		
+		// Lvl
+		tmp = new JLabel("Lvl " + perso.getLvl());
+		tmp.setFont(new Font("Arial", Font.ITALIC, 22));
+		panelCarac.add(tmp);
+		panelCarac.add(new JLabel(" "));
+		
+		// Vita
+		vita.setValue(perso.getHp());
+		tmp = new JLabel("Vitalité");
+		tmp.setFont(f);
+		panelCarac.add(tmp);
+		panelCarac.add(vita);
+		panelCarac.add(new JLabel(" "));
+		
+		// Mana
+		tmp = new JLabel("Mana");
+		tmp.setFont(f);
+		panelCarac.add(tmp);
+		panelCarac.add(mana);
+		panelCarac.add(new JLabel(" "));
+		
+		// Or
+		tmp = new JLabel("Or:    "+ perso.getOr()+ " pièces");
+		tmp.setFont(f);
+		panelCarac.add(tmp);
+		panelCarac.add(new JLabel(" "));
+		
+		// Final add
 		add(panelCarac);
 	}
 	private void initListener() {
