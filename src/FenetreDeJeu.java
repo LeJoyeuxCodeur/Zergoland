@@ -96,12 +96,14 @@ public class FenetreDeJeu extends JFrame {
 				else if (pattern[i][j] == 1)
 					map[i][j] = new Case(Constante.caseArbre);
 				else if (pattern[i][j] == 2)
-					map[i][j] = new Case(Constante.maisonG);
+					map[i][j] = new Case(Constante.mbg);
 				else if (pattern[i][j] == 3)
-					map[i][j] = new Case(Constante.maisonM);
+					map[i][j] = new Case(Constante.mbd);
 				else if (pattern[i][j] == 4)
-					map[i][j] = new Case(Constante.maisonD);
+					map[i][j] = new Case(Constante.mhg);
 				else if (pattern[i][j] == 5)
+					map[i][j] = new Case(Constante.mhd);
+				else if (pattern[i][j] == 6)
 					map[i][j] = new Case(Constante.coffre);
 
 				labels[i][j] = new JLabel();
