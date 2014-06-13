@@ -20,6 +20,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.event.InternalFrameListener;
 
 public class FenetreDeJeu extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -44,9 +46,29 @@ public class FenetreDeJeu extends JFrame {
 		initFenetre();
 	}
 	private void initIventaire(){
-		frameInventaire = new JInternalFrame("Inventaire", true, true, true, true);
+		frameInventaire = new JInternalFrame("Inventaire", true, true, true);
 		frameInventaire.setSize(500, 250);
 		frameInventaire.setLocation(772, 420);
+		frameInventaire.addInternalFrameListener(new InternalFrameListener() {
+			public void internalFrameOpened(InternalFrameEvent arg0) {
+			}
+			public void internalFrameIconified(InternalFrameEvent arg0) {
+			}
+			public void internalFrameDeiconified(InternalFrameEvent arg0) {
+			}
+			public void internalFrameDeactivated(InternalFrameEvent arg0) {
+			}
+			public void internalFrameClosing(InternalFrameEvent arg0) {
+			}
+			public void internalFrameClosed(InternalFrameEvent arg0) {
+				setFocusable(true);
+				requestFocusInWindow();
+			}
+			public void internalFrameActivated(InternalFrameEvent arg0) {
+				setFocusable(true);
+				requestFocusInWindow();
+			}
+		});
 		add(frameInventaire);
 	}
 	private void initCarac() {
@@ -99,7 +121,7 @@ public class FenetreDeJeu extends JFrame {
 		
 		// Bouton inventaire
 		inventaire.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent e) {
 				frameInventaire.setVisible(true);
 			}
 		});
