@@ -82,43 +82,57 @@ public class FenetreDeJeu extends JFrame {
 			int y = coord.height;
 
 			try {
-				// Case avant
-				if (pattern[x][y] == 0)
-					map[x][y].setSkin(Constante.caseVide);
-				else
-					map[x][y].setSkin(Constante.caseArbre);
-
 				if (e.getKeyCode() == KeyEvent.VK_Z || e.getKeyCode() == KeyEvent.VK_UP) {
 					// Case apres
-					map[x - 1][y].setSkin(Constante.casePerso); // deplacement du perso
-					coord = new Dimension(x - 1, y); // update coord
+					if (pattern[x - 1][y] != 1) {
+						map[x - 1][y].setSkin(Constante.casePerso); // deplacement du perso
+						coord = new Dimension(x - 1, y); // update coord
 
-					// Ajout au label
-					labels[x - 1][y].setIcon(map[x - 1][y].getSkin());
+						// Ajout au label
+						labels[x - 1][y].setIcon(map[x - 1][y].getSkin());
+
+						// Case avant
+						map[x][y].setSkin(Constante.caseVide);
+					}
 				}
 				else if (e.getKeyCode() == KeyEvent.VK_Q || e.getKeyCode() == KeyEvent.VK_LEFT) {
 					// Case apres
-					map[x][y - 1].setSkin(Constante.casePerso); // deplacement du perso
-					coord = new Dimension(x, y - 1); // update coord
+					if (pattern[x][y - 1] != 1) {
+						map[x][y - 1].setSkin(Constante.casePerso); // deplacement du perso
+						coord = new Dimension(x, y - 1); // update coord
 
-					// Ajout au label
-					labels[x][y - 1].setIcon(map[x][y - 1].getSkin());
+						// Ajout au label
+						labels[x][y - 1].setIcon(map[x][y - 1].getSkin());
+
+						// Case avant
+						map[x][y].setSkin(Constante.caseVide);
+					}
 				}
 				else if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN) {
 					// Case apres
-					map[x + 1][y].setSkin(Constante.casePerso); // deplacement du perso
-					coord = new Dimension(x + 1, y); // update coord
+					if (pattern[x + 1][y] != 1) {
+						map[x + 1][y].setSkin(Constante.casePerso); // deplacement du perso
+						coord = new Dimension(x + 1, y); // update coord
 
-					// Ajout au label
-					labels[x + 1][y].setIcon(map[x + 1][y].getSkin());
+						// Ajout au label
+						labels[x + 1][y].setIcon(map[x + 1][y].getSkin());
+
+						// Case avant
+						map[x][y].setSkin(Constante.caseVide);
+					}
 				}
 				else if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT) {
 					// Case apres
-					map[x][y + 1].setSkin(Constante.casePerso); // deplacement du perso
-					coord = new Dimension(x, y + 1); // update coord
+					if (pattern[x][y + 1] != 1) {
+						map[x][y + 1].setSkin(Constante.casePerso); // deplacement du perso
+						coord = new Dimension(x, y + 1); // update coord
 
-					// Ajout au label
-					labels[x][y + 1].setIcon(map[x][y + 1].getSkin());
+						// Ajout au label
+						labels[x][y + 1].setIcon(map[x][y + 1].getSkin());
+
+						// Case avant
+						map[x][y].setSkin(Constante.caseVide);
+					}
 				}
 				// Ajout au label
 				labels[x][y].setIcon(map[x][y].getSkin());
