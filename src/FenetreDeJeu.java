@@ -3,6 +3,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.BufferedReader;
@@ -11,7 +13,9 @@ import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -26,16 +30,24 @@ public class FenetreDeJeu extends JFrame {
 	private MoveListener ecouteurDepl = new MoveListener();
 	private Dimension coord;
 	private JPanel panelMap, panelCarac;
+	private JInternalFrame frameInventaire;
 	private Personnage perso;
 
 	public FenetreDeJeu() {
 		super("ZergoLand");
 		setLayout(new BorderLayout());
 		initListener();
+		initIventaire();
 		initReader();
 		initMap();
 		initCarac();
 		initFenetre();
+	}
+	private void initIventaire(){
+		frameInventaire = new JInternalFrame("Inventaire", true, true, true, true);
+		frameInventaire.setSize(500, 250);
+		frameInventaire.setLocation(772, 420);
+		add(frameInventaire);
 	}
 	private void initCarac() {
 		String s = "Caractéristiques";
@@ -43,6 +55,7 @@ public class FenetreDeJeu extends JFrame {
 		JProgressBar vita = new JProgressBar(0, perso.getHpMax());
 		JProgressBar mana = new JProgressBar(0, perso.getManaMax());
 		JLabel tmp;
+		JButton inventaire = new JButton("Inventaire");
 		
 		// Panel Carac
 		panelCarac = new JPanel();
@@ -83,6 +96,14 @@ public class FenetreDeJeu extends JFrame {
 		tmp.setFont(f);
 		panelCarac.add(tmp);
 		panelCarac.add(new JLabel(" "));
+		
+		// Bouton inventaire
+		inventaire.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				frameInventaire.setVisible(true);
+			}
+		});
+		panelCarac.add(inventaire);
 		
 		// Final add
 		add(panelCarac);
