@@ -20,14 +20,11 @@ public class FenetreDeJeu extends JFrame {
 	public FenetreDeJeu() {
 		super("ZergoLand");
 		setLayout(new GridLayout(Constante.CASES_X, Constante.CASES_Y));
-<<<<<<< HEAD
 		this.getContentPane().setFocusable(true);
 		this.getContentPane().requestFocusInWindow();
 		this.getContentPane().addKeyListener(ecouteurDepl);
 		this.setIconImage(new ImageIcon("ressources/images/logo/logo.png").getImage());
-=======
 		initListener();
->>>>>>> origin/master
 		initReader();
 		initMap();
 		initFenetre();
