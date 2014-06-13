@@ -7,7 +7,7 @@ public class Constante {
 	public static final int CASES_X = 15;
 	public static final int CASES_Y = 25;
 	public static final ImageIcon caseVide = new ImageIcon("ressources/images/cases/CaseVide.png");
-	public static final ImageIcon casePerso = new ImageIcon("ressources/images/cases/CasePerso.png");
+	public static final ImageIcon casePerso = new ImageIcon("ressources/images/cases/Bryan.png");
 	public static final ImageIcon caseArbre = new ImageIcon("ressources/images/cases/CaseArbre.png");
 	public static final ImageIcon maisonG = new ImageIcon("ressources/images/cases/maisonG.png");
 	public static final ImageIcon maisonM = new ImageIcon("ressources/images/cases/maisonM.png");
