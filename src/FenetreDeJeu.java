@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 public class FenetreDeJeu extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private Case[][] map;
-	private JLabel[][] panels;
+	private JLabel[][] labels;
 	private BufferedReader reader;
 	private int[][] pattern;
 	private MoveListener ecouteurDepl = new MoveListener();
@@ -53,33 +53,33 @@ public class FenetreDeJeu extends JFrame {
 	}
 	private void initMap() {
 		map = new Case[Constante.CASES_X][Constante.CASES_Y];
-		panels = new JLabel[Constante.CASES_X][Constante.CASES_Y];
+		labels = new JLabel[Constante.CASES_X][Constante.CASES_Y];
 
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
-				if (pattern[i][j] == 0)
+				if(i == 4 && j == 5)
+					map[i][j] = new Case(Constante.casePerso);
+				else if (pattern[i][j] == 0)
 					map[i][j] = new Case(Constante.caseVide);
 				else if (pattern[i][j] == 1)
 					map[i][j] = new Case(Constante.caseArbre);
-				else
-					map[i][j] = new Case(Constante.casePerso);
 
-				panels[i][j] = new JLabel();
-				panels[i][j].add(new JLabel(map[i][j].getSkin()));
-				panels[i][j].setIcon(map[i][j].getSkin());
-				add(panels[i][j]);
+				labels[i][j] = new JLabel();
+				labels[i][j].add(new JLabel(map[i][j].getSkin()));
+				labels[i][j].setIcon(map[i][j].getSkin());
+				add(labels[i][j]);
 			}
 		}
 	}
 	private class MoveListener implements KeyListener {
 		public void keyPressed(KeyEvent e) {
-			if (e.getKeyChar() == 'z')
+			if (e.getKeyCode() == KeyEvent.VK_Z || e.getKeyCode() == KeyEvent.VK_UP)
 				System.out.println('z');
-			else if (e.getKeyChar() == 'q')
+			else if (e.getKeyCode() == KeyEvent.VK_Q || e.getKeyCode() == KeyEvent.VK_LEFT)
 				System.out.println('q');
-			else if (e.getKeyChar() == 's')
+			else if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN)
 				System.out.println('s');
-			else if (e.getKeyChar() == 'd')
+			else if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT)
 				System.out.println('d');
 		}
 		public void keyReleased(KeyEvent e) {}
