@@ -6,7 +6,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
@@ -35,7 +34,7 @@ public class FenetreDeJeu extends JFrame {
 	private void initFenetre() {
 		setSize(1100, 600);
 		setResizable(false);
-		setIconImage(new ImageIcon("ressources/images/logo/logo.png").getImage());
+		setIconImage(Constante.LOGO);
 		setLocationRelativeTo(null);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
