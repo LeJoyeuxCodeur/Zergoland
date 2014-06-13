@@ -1,5 +1,7 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -7,9 +9,11 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 
 public class FenetreDeJeu extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -32,7 +36,8 @@ public class FenetreDeJeu extends JFrame {
 	}
 	private void initCarac() {
 		panelCarac = new JPanel();
-		add(panelCarac, BorderLayout.EAST);
+		panelCarac.setBorder(BorderFactory.createTitledBorder(null, "Caractéristiques", TitledBorder.CENTER, TitledBorder.TOP, new Font("Arial", Font.PLAIN, 18), Color.BLACK));
+		add(panelCarac);
 	}
 	private void initListener() {
 		setFocusable(true);
