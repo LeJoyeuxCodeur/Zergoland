@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
@@ -22,6 +23,7 @@ public class FenetreDeJeu extends JFrame {
 		this.getContentPane().setFocusable(true);
 		this.getContentPane().requestFocusInWindow();
 		this.getContentPane().addKeyListener(ecouteurDepl);
+		this.setIconImage(new ImageIcon("ressources/images/logo/logo.png").getImage());
 		initReader();
 		initMap();
 		initFenetre();
