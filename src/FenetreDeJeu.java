@@ -32,7 +32,7 @@ public class FenetreDeJeu extends JFrame {
 		addKeyListener(ecouteurDepl);
 	}
 	private void initFenetre() {
-		setSize(1100, 600);
+		setSize(1280, 600);
 		setResizable(false);
 		setIconImage(Constante.LOGO);
 		setLocationRelativeTo(null);
