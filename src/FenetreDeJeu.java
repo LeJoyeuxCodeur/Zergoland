@@ -22,10 +22,6 @@ public class FenetreDeJeu extends JFrame {
 	public FenetreDeJeu() {
 		super("ZergoLand");
 		setLayout(new GridLayout(Constante.CASES_X, Constante.CASES_Y));
-		this.getContentPane().setFocusable(true);
-		this.getContentPane().requestFocusInWindow();
-		this.getContentPane().addKeyListener(ecouteurDepl);
-		this.setIconImage(new ImageIcon("ressources/images/logo/logo.png").getImage());
 		initListener();
 		initReader();
 		initMap();
@@ -39,6 +35,7 @@ public class FenetreDeJeu extends JFrame {
 	private void initFenetre() {
 		setSize(1100, 600);
 		setResizable(false);
+		setIconImage(new ImageIcon("ressources/images/logo/logo.png").getImage());
 		setLocationRelativeTo(null);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
