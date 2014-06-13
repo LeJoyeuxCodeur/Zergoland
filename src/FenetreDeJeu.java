@@ -1,3 +1,4 @@
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -16,6 +17,7 @@ public class FenetreDeJeu extends JFrame {
 	private BufferedReader reader;
 	private int[][] pattern;
 	private MoveListener ecouteurDepl = new MoveListener();
+	private Dimension coord;
 
 	public FenetreDeJeu() {
 		super("ZergoLand");
@@ -62,30 +64,69 @@ public class FenetreDeJeu extends JFrame {
 
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
-				if(i == 4 && j == 5)
+				if (i == 3 && j == 8) {
 					map[i][j] = new Case(Constante.casePerso);
+					coord = new Dimension(i, j);
+				}
 				else if (pattern[i][j] == 0)
 					map[i][j] = new Case(Constante.caseVide);
 				else if (pattern[i][j] == 1)
 					map[i][j] = new Case(Constante.caseArbre);
 
 				labels[i][j] = new JLabel();
-				labels[i][j].add(new JLabel(map[i][j].getSkin()));
 				labels[i][j].setIcon(map[i][j].getSkin());
 				add(labels[i][j]);
 			}
 		}
 	}
+
 	private class MoveListener implements KeyListener {
 		public void keyPressed(KeyEvent e) {
-			if (e.getKeyCode() == KeyEvent.VK_Z || e.getKeyCode() == KeyEvent.VK_UP)
-				System.out.println('z');
-			else if (e.getKeyCode() == KeyEvent.VK_Q || e.getKeyCode() == KeyEvent.VK_LEFT)
-				System.out.println('q');
-			else if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN)
-				System.out.println('s');
-			else if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT)
-				System.out.println('d');
+			int x = coord.width;
+			int y = coord.height;
+
+			try{
+				// Case avant
+				if (pattern[x][y] == 0)
+					map[x][y].setSkin(Constante.caseVide);
+				else
+					map[x][y].setSkin(Constante.caseArbre);
+	
+				if (e.getKeyCode() == KeyEvent.VK_Z || e.getKeyCode() == KeyEvent.VK_UP) {
+					// Case apres
+					map[x - 1][y].setSkin(Constante.casePerso); // deplacement du perso
+					coord = new Dimension(x - 1, y); // update coord
+	
+					// Ajout au label
+					labels[x - 1][y].setIcon(map[x - 1][y].getSkin());
+				}
+				else if (e.getKeyCode() == KeyEvent.VK_Q || e.getKeyCode() == KeyEvent.VK_LEFT) {
+					// Case apres
+					map[x][y - 1].setSkin(Constante.casePerso); // deplacement du perso
+					coord = new Dimension(x, y - 1); // update coord
+	
+					// Ajout au label
+					labels[x][y - 1].setIcon(map[x][y - 1].getSkin());
+				}
+				else if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN) {
+					// Case apres
+					map[x + 1][y].setSkin(Constante.casePerso); // deplacement du perso
+					coord = new Dimension(x + 1, y); // update coord
+	
+					// Ajout au label
+					labels[x + 1][y].setIcon(map[x + 1][y].getSkin());
+				}
+				else if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT) {
+					// Case apres
+					map[x][y + 1].setSkin(Constante.casePerso); // deplacement du perso
+					coord = new Dimension(x, y + 1); // update coord
+	
+					// Ajout au label
+					labels[x][y + 1].setIcon(map[x][y + 1].getSkin());
+				}
+				// Ajout au label
+				labels[x][y].setIcon(map[x][y].getSkin());
+			} catch (java.lang.ArrayIndexOutOfBoundsException ex){}
 		}
 		public void keyReleased(KeyEvent e) {}
 		public void keyTyped(KeyEvent e) {}
