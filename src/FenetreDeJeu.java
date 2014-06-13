@@ -35,8 +35,10 @@ public class FenetreDeJeu extends JFrame {
 		initFenetre();
 	}
 	private void initCarac() {
+		String s = "Caractéristiques";
+		Font f = new Font("Arial", Font.PLAIN, 18);
 		panelCarac = new JPanel();
-		panelCarac.setBorder(BorderFactory.createTitledBorder(null, "Caractéristiques", TitledBorder.CENTER, TitledBorder.TOP, new Font("Arial", Font.PLAIN, 18), Color.BLACK));
+		panelCarac.setBorder(BorderFactory.createTitledBorder(null, s, TitledBorder.CENTER, TitledBorder.TOP, f, Color.BLACK));
 		add(panelCarac);
 	}
 	private void initListener() {
