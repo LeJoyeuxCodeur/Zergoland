@@ -85,18 +85,18 @@ public class FenetreDeJeu extends JFrame {
 			int x = coord.width;
 			int y = coord.height;
 
-			try{
+			try {
 				// Case avant
 				if (pattern[x][y] == 0)
 					map[x][y].setSkin(Constante.caseVide);
 				else
 					map[x][y].setSkin(Constante.caseArbre);
-	
+
 				if (e.getKeyCode() == KeyEvent.VK_Z || e.getKeyCode() == KeyEvent.VK_UP) {
 					// Case apres
 					map[x - 1][y].setSkin(Constante.casePerso); // deplacement du perso
 					coord = new Dimension(x - 1, y); // update coord
-	
+
 					// Ajout au label
 					labels[x - 1][y].setIcon(map[x - 1][y].getSkin());
 				}
@@ -104,7 +104,7 @@ public class FenetreDeJeu extends JFrame {
 					// Case apres
 					map[x][y - 1].setSkin(Constante.casePerso); // deplacement du perso
 					coord = new Dimension(x, y - 1); // update coord
-	
+
 					// Ajout au label
 					labels[x][y - 1].setIcon(map[x][y - 1].getSkin());
 				}
@@ -112,7 +112,7 @@ public class FenetreDeJeu extends JFrame {
 					// Case apres
 					map[x + 1][y].setSkin(Constante.casePerso); // deplacement du perso
 					coord = new Dimension(x + 1, y); // update coord
-	
+
 					// Ajout au label
 					labels[x + 1][y].setIcon(map[x + 1][y].getSkin());
 				}
@@ -120,13 +120,14 @@ public class FenetreDeJeu extends JFrame {
 					// Case apres
 					map[x][y + 1].setSkin(Constante.casePerso); // deplacement du perso
 					coord = new Dimension(x, y + 1); // update coord
-	
+
 					// Ajout au label
 					labels[x][y + 1].setIcon(map[x][y + 1].getSkin());
 				}
 				// Ajout au label
 				labels[x][y].setIcon(map[x][y].getSkin());
-			} catch (java.lang.ArrayIndexOutOfBoundsException ex){}
+			}
+			catch (java.lang.ArrayIndexOutOfBoundsException ex) {}
 		}
 		public void keyReleased(KeyEvent e) {}
 		public void keyTyped(KeyEvent e) {}
