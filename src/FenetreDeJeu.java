@@ -21,7 +21,7 @@ public class FenetreDeJeu extends JFrame {
 		initFenetre();
 	}
 	private void initFenetre() {
-		setSize(Constante.X, Constante.Y);
+		setSize(1216, 618);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);
