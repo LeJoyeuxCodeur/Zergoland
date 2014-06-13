@@ -15,7 +15,7 @@ public class FenetreDeJeu extends JFrame {
 
 	public FenetreDeJeu() {
 		super("ZergoLand");
-		setLayout(new GridLayout(Constante.CASES_X, Constante.CASES_Y, -5, 0));
+		setLayout(new GridLayout(Constante.CASES_X, Constante.CASES_Y));
 		initReader();
 		initMap();
 		initFenetre();
