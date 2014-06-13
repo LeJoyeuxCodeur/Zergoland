@@ -19,15 +19,18 @@ public class FenetreDeJeu extends JFrame {
 	public FenetreDeJeu() {
 		super("ZergoLand");
 		setLayout(new GridLayout(Constante.CASES_X, Constante.CASES_Y));
-		this.getContentPane().setFocusable(true);
-		this.getContentPane().requestFocusInWindow();
-		this.getContentPane().addKeyListener(ecouteurDepl);
+		initListener();
 		initReader();
 		initMap();
 		initFenetre();
 	}
+	private void initListener() {
+		setFocusable(true);
+		requestFocusInWindow();
+		addKeyListener(ecouteurDepl);
+	}
 	private void initFenetre() {
-		setSize(1266, 668);
+		setSize(1100, 600);
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setVisible(true);
@@ -69,31 +72,17 @@ public class FenetreDeJeu extends JFrame {
 		}
 	}
 	private class MoveListener implements KeyListener {
-		@Override
 		public void keyPressed(KeyEvent e) {
-			if(e.getKeyChar()=='z'){
+			if (e.getKeyChar() == 'z')
 				System.out.println('z');
-			}
-			if(e.getKeyChar()=='q'){
+			else if (e.getKeyChar() == 'q')
 				System.out.println('q');
-			}
-			if(e.getKeyChar()=='s'){
+			else if (e.getKeyChar() == 's')
 				System.out.println('s');
-			}
-			if(e.getKeyChar()=='d'){
+			else if (e.getKeyChar() == 'd')
 				System.out.println('d');
-			}
 		}
-		@Override
-		public void keyReleased(KeyEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-		@Override
-		public void keyTyped(KeyEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-		
+		public void keyReleased(KeyEvent e) {}
+		public void keyTyped(KeyEvent e) {}
 	}
 }
