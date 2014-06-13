@@ -1,3 +1,4 @@
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
@@ -8,6 +9,7 @@ import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class FenetreDeJeu extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -17,14 +19,20 @@ public class FenetreDeJeu extends JFrame {
 	private int[][] pattern;
 	private MoveListener ecouteurDepl = new MoveListener();
 	private Dimension coord;
+	private JPanel panelMap, panelCarac;
 
 	public FenetreDeJeu() {
 		super("ZergoLand");
-		setLayout(new GridLayout(Constante.CASES_X, Constante.CASES_Y));
+		setLayout(new BorderLayout());
 		initListener();
 		initReader();
 		initMap();
+		initCarac();
 		initFenetre();
+	}
+	private void initCarac() {
+		panelCarac = new JPanel();
+		add(panelCarac, BorderLayout.EAST);
 	}
 	private void initListener() {
 		setFocusable(true);
@@ -55,6 +63,8 @@ public class FenetreDeJeu extends JFrame {
 		catch (IOException e) {}
 	}
 	private void initMap() {
+		panelMap = new JPanel();
+		panelMap.setLayout(new GridLayout(Constante.CASES_X, Constante.CASES_Y));
 		map = new Case[Constante.CASES_X][Constante.CASES_Y];
 		labels = new JLabel[Constante.CASES_X][Constante.CASES_Y];
 
@@ -79,7 +89,8 @@ public class FenetreDeJeu extends JFrame {
 
 				labels[i][j] = new JLabel();
 				labels[i][j].setIcon(map[i][j].getSkin());
-				add(labels[i][j]);
+				panelMap.add(labels[i][j]);
+				add(panelMap, BorderLayout.WEST);
 			}
 		}
 	}
