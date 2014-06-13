@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 public class FenetreDeJeu extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private Case[][] map;
-	private JLabel[][] panels;
+	private JLabel[][] labels;
 	private BufferedReader reader;
 	private int[][] pattern;
 	private MoveListener ecouteurDepl = new MoveListener();
@@ -20,16 +20,25 @@ public class FenetreDeJeu extends JFrame {
 	public FenetreDeJeu() {
 		super("ZergoLand");
 		setLayout(new GridLayout(Constante.CASES_X, Constante.CASES_Y));
+<<<<<<< HEAD
 		this.getContentPane().setFocusable(true);
 		this.getContentPane().requestFocusInWindow();
 		this.getContentPane().addKeyListener(ecouteurDepl);
 		this.setIconImage(new ImageIcon("ressources/images/logo/logo.png").getImage());
+=======
+		initListener();
+>>>>>>> origin/master
 		initReader();
 		initMap();
 		initFenetre();
 	}
+	private void initListener() {
+		setFocusable(true);
+		requestFocusInWindow();
+		addKeyListener(ecouteurDepl);
+	}
 	private void initFenetre() {
-		setSize(1266, 668);
+		setSize(1100, 600);
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setVisible(true);
@@ -52,50 +61,36 @@ public class FenetreDeJeu extends JFrame {
 	}
 	private void initMap() {
 		map = new Case[Constante.CASES_X][Constante.CASES_Y];
-		panels = new JLabel[Constante.CASES_X][Constante.CASES_Y];
+		labels = new JLabel[Constante.CASES_X][Constante.CASES_Y];
 
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
-				if (pattern[i][j] == 0)
+				if(i == 4 && j == 5)
+					map[i][j] = new Case(Constante.casePerso);
+				else if (pattern[i][j] == 0)
 					map[i][j] = new Case(Constante.caseVide);
 				else if (pattern[i][j] == 1)
 					map[i][j] = new Case(Constante.caseArbre);
-				else
-					map[i][j] = new Case(Constante.casePerso);
 
-				panels[i][j] = new JLabel();
-				panels[i][j].add(new JLabel(map[i][j].getSkin()));
-				panels[i][j].setIcon(map[i][j].getSkin());
-				add(panels[i][j]);
+				labels[i][j] = new JLabel();
+				labels[i][j].add(new JLabel(map[i][j].getSkin()));
+				labels[i][j].setIcon(map[i][j].getSkin());
+				add(labels[i][j]);
 			}
 		}
 	}
 	private class MoveListener implements KeyListener {
-		@Override
 		public void keyPressed(KeyEvent e) {
-			if(e.getKeyChar()=='z'){
+			if (e.getKeyCode() == KeyEvent.VK_Z || e.getKeyCode() == KeyEvent.VK_UP)
 				System.out.println('z');
-			}
-			if(e.getKeyChar()=='q'){
+			else if (e.getKeyCode() == KeyEvent.VK_Q || e.getKeyCode() == KeyEvent.VK_LEFT)
 				System.out.println('q');
-			}
-			if(e.getKeyChar()=='s'){
+			else if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN)
 				System.out.println('s');
-			}
-			if(e.getKeyChar()=='d'){
+			else if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT)
 				System.out.println('d');
-			}
 		}
-		@Override
-		public void keyReleased(KeyEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-		@Override
-		public void keyTyped(KeyEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-		
+		public void keyReleased(KeyEvent e) {}
+		public void keyTyped(KeyEvent e) {}
 	}
 }
