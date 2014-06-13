@@ -1,4 +1,6 @@
 import java.awt.GridLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -12,10 +14,14 @@ public class FenetreDeJeu extends JFrame {
 	private JLabel[][] panels;
 	private BufferedReader reader;
 	private int[][] pattern;
+	private MoveListener ecouteurDepl = new MoveListener();
 
 	public FenetreDeJeu() {
 		super("ZergoLand");
 		setLayout(new GridLayout(Constante.CASES_X, Constante.CASES_Y));
+		this.getContentPane().setFocusable(true);
+		this.getContentPane().requestFocusInWindow();
+		this.getContentPane().addKeyListener(ecouteurDepl);
 		initReader();
 		initMap();
 		initFenetre();
@@ -61,5 +67,33 @@ public class FenetreDeJeu extends JFrame {
 				add(panels[i][j]);
 			}
 		}
+	}
+	private class MoveListener implements KeyListener {
+		@Override
+		public void keyPressed(KeyEvent e) {
+			if(e.getKeyChar()=='z'){
+				System.out.println('z');
+			}
+			if(e.getKeyChar()=='q'){
+				System.out.println('q');
+			}
+			if(e.getKeyChar()=='s'){
+				System.out.println('s');
+			}
+			if(e.getKeyChar()=='d'){
+				System.out.println('d');
+			}
+		}
+		@Override
+		public void keyReleased(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
 	}
 }
