@@ -27,7 +27,7 @@ public class FenetreDeJeu extends JFrame {
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-	public void initReader() {
+	private void initReader() {
 		String[] patternTmp = null;
 		int cpt = 0;
 		try {
@@ -42,7 +42,7 @@ public class FenetreDeJeu extends JFrame {
 		}
 		catch (IOException e) {}
 	}
-	public void initMap() {
+	private void initMap() {
 		map = new Case[Constante.CASES_X][Constante.CASES_Y];
 		panels = new JLabel[Constante.CASES_X][Constante.CASES_Y];
 
