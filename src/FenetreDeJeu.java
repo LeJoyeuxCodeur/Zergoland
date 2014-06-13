@@ -21,7 +21,8 @@ public class FenetreDeJeu extends JFrame {
 		initFenetre();
 	}
 	private void initFenetre() {
-		pack();
+		setSize(Constante.SIZE_X, Constante.SIZE_Y);
+		setResizable(false);
 		setLocationRelativeTo(null);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -51,6 +52,8 @@ public class FenetreDeJeu extends JFrame {
 					map[i][j] = new Case(Constante.caseVide);
 				else if (pattern[i][j] == 1)
 					map[i][j] = new Case(Constante.caseArbre);
+				else
+					map[i][j] = new Case(Constante.casePerso);
 
 				panels[i][j] = new JLabel();
 				panels[i][j].add(new JLabel(map[i][j].getSkin()));
