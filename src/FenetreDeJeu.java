@@ -32,17 +32,30 @@ public class FenetreDeJeu extends JFrame {
 	private MoveListenerModeJeu listenerJeu = new MoveListenerModeJeu();
 	private MoveListenerModeCombat listenerCombat = new MoveListenerModeCombat();
 	private Dimension coord;
-	private JPanel panelMap, panelCarac;
+	private JPanel panelMap = new JPanel(), panelCarac = new JPanel();
 	private JInternalFrame frameInventaire;
 	private Personnage perso = new Personnage("Personnage_Test");
 
 	public FenetreDeJeu() {
 		super("ZergoLand");
 		setLayout(new BorderLayout());
-		initCarac();
+		initComposants();
 		initIventaire();
+		initCarac();
 		initMapJeu();
 		initFenetre();
+	}
+	private void initComposants() {
+		panelMap.setLayout(new GridLayout(Constante.CASES_X, Constante.CASES_Y));
+		map = new Case[Constante.CASES_X][Constante.CASES_Y];
+		labels = new JLabel[Constante.CASES_X][Constante.CASES_Y];
+		initReader(Constante.MAP);
+
+		for (int i = 0; i < labels.length; i++) {
+			for (int j = 0; j < labels[0].length; j++) {
+				labels[i][j] = new JLabel();
+			}
+		}
 	}
 	private void initIventaire() {
 		frameInventaire = new JInternalFrame("Inventaire", true, true, true);
@@ -158,13 +171,9 @@ public class FenetreDeJeu extends JFrame {
 		catch (IOException e) {}
 	}
 	private void initMapJeu() {
-		panelMap = new JPanel();
-		panelMap.setLayout(new GridLayout(Constante.CASES_X, Constante.CASES_Y));
-		map = new Case[Constante.CASES_X][Constante.CASES_Y];
-		labels = new JLabel[Constante.CASES_X][Constante.CASES_Y];
-
+		panelMap.removeAll();
+		removeKeyListener(listenerCombat);
 		initListenerJeu();
-		initReader(Constante.MAP_DEPLACEMENT);
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
 				if (i == 3 && j == 8) {
@@ -192,14 +201,37 @@ public class FenetreDeJeu extends JFrame {
 				else if (pattern[i][j] == 9)
 					map[i][j] = new Case(Constante.zombie_depl);
 
-				labels[i][j] = new JLabel();
 				labels[i][j].setIcon(map[i][j].getSkin());
 				panelMap.add(labels[i][j]);
 				add(panelMap, BorderLayout.WEST);
 			}
 		}
+		panelMap.repaint();
 	}
-	
+	private void initMapCombat() {
+		panelMap.removeAll();
+		removeKeyListener(listenerJeu);
+		initListenerCombat();
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map[0].length; j++) {
+				if (i == 3 && j == 8) {
+					map[i][j] = new Case(Constante.casePersoAttaque);
+					coord = new Dimension(i, j);
+				}
+				else if (pattern[i][j] == 9)
+					map[i][j] = new Case(Constante.zombie_att);
+				else if (pattern[i][j] == 0)
+					map[i][j] = new Case(Constante.caseVideCombat);
+				else
+					map[i][j] = new Case(Constante.caseObstacle);
+
+				labels[i][j].setIcon(map[i][j].getSkin());
+				panelMap.add(labels[i][j]);
+			}
+		}
+		panelMap.repaint();
+	}
+
 	private class MoveListenerModeJeu implements KeyListener {
 		public void keyPressed(KeyEvent e) {
 			int x = coord.width;
@@ -268,13 +300,16 @@ public class FenetreDeJeu extends JFrame {
 		public void keyReleased(KeyEvent e) {}
 		public void keyTyped(KeyEvent e) {}
 	}
+
 	private class MoveListenerModeCombat implements KeyListener {
 		public void keyPressed(KeyEvent e) {
 			int x = coord.width;
 			int y = coord.height;
 
 			try {
-				if (e.getKeyCode() == KeyEvent.VK_Z || e.getKeyCode() == KeyEvent.VK_UP) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER)
+					initMapJeu();
+				else if (e.getKeyCode() == KeyEvent.VK_Z || e.getKeyCode() == KeyEvent.VK_UP) {
 					// Case apres
 					if (pattern[x - 1][y] == 0) {
 						map[x - 1][y].setSkin(Constante.casePersoAttaque); // deplacement du perso
@@ -333,34 +368,5 @@ public class FenetreDeJeu extends JFrame {
 		}
 		public void keyReleased(KeyEvent e) {}
 		public void keyTyped(KeyEvent e) {}
-	}
-	public void initMapCombat() {
-		panelMap = new JPanel();
-		panelMap.setLayout(new GridLayout(Constante.CASES_X, Constante.CASES_Y));
-		map = new Case[Constante.CASES_X][Constante.CASES_Y];
-		labels = new JLabel[Constante.CASES_X][Constante.CASES_Y];
-
-		getContentPane().removeAll();
-		removeKeyListener(listenerJeu);
-		initListenerCombat();
-		for (int i = 0; i < map.length; i++) {
-			for (int j = 0; j < map[0].length; j++) {
-				if (i == 3 && j == 8) {
-					map[i][j] = new Case(Constante.casePersoAttaque);
-					coord = new Dimension(i, j);
-				}
-				if (pattern[i][j] == 9)
-					map[i][j] = new Case(Constante.zombie_att);
-				else if (pattern[i][j] == 0)
-					map[i][j] = new Case(Constante.caseVideCombat);
-				else
-					map[i][j] = new Case(Constante.caseObstacle);
-
-				labels[i][j] = new JLabel();
-				labels[i][j].setIcon(map[i][j].getSkin());
-				panelMap.add(labels[i][j]);
-				add(panelMap, BorderLayout.WEST);
-			}
-		}
 	}
 }
