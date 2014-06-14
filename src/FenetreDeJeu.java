@@ -53,10 +53,10 @@ public class FenetreDeJeu extends JFrame {
 		JLabel tmp;
 		Font f = new Font("Arial", Font.PLAIN, 18);
 
-		// Nom
-		for (int i = 0; i < 4; i++)
-			panelCarac.add(new JLabel(" "));
+		panelCarac.add(new JLabel(" "));
+		panelCarac.add(new JLabel("- - - - - - - - - - - - - - - - - - - - - - -"));
 
+		// Nom
 		tmp = new JLabel(ennemi.getNom());
 		tmp.setForeground(Color.RED);
 		tmp.setFont(new Font("Arial", Font.ITALIC, 15));
