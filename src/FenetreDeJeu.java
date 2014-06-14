@@ -83,6 +83,7 @@ public class FenetreDeJeu extends JFrame {
 		Font f = new Font("Arial", Font.PLAIN, 18);
 		JProgressBar vita = new JProgressBar(0, perso.getHpMax());
 		JProgressBar mana = new JProgressBar(0, perso.getManaMax());
+		JProgressBar xp = new JProgressBar(0, 100);
 		JLabel tmp;
 		JButton inventaire = new JButton("Inventaire");
 
@@ -107,6 +108,10 @@ public class FenetreDeJeu extends JFrame {
 
 		// Vita
 		vita.setValue(perso.getHp());
+		vita.setStringPainted(true);
+		vita.setString(perso.getHp()+"/"+perso.getHpMax());
+		vita.setForeground(Color.RED);
+		vita.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.black));
 		tmp = new JLabel("Vitalité");
 		tmp.setFont(f);
 		panelCarac.add(tmp);
@@ -114,10 +119,27 @@ public class FenetreDeJeu extends JFrame {
 		panelCarac.add(new JLabel(" "));
 
 		// Mana
+		mana.setValue(50);
+		mana.setForeground(Color.blue);
+		mana.setStringPainted(true);
+		mana.setString(perso.getMp()+"/"+perso.getManaMax());
+		mana.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.black));
 		tmp = new JLabel("Mana");
 		tmp.setFont(f);
 		panelCarac.add(tmp);
 		panelCarac.add(mana);
+		panelCarac.add(new JLabel(" "));
+		
+		// xp
+		xp.setValue(perso.getHp());
+		xp.setForeground(Color.black);
+		xp.setStringPainted(true);
+		xp.setString("0/100");
+		xp.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.black));
+		tmp = new JLabel("XP");
+		tmp.setFont(f);
+		panelCarac.add(tmp);
+		panelCarac.add(xp);
 		panelCarac.add(new JLabel(" "));
 
 		// Or

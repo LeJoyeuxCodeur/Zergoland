@@ -8,7 +8,7 @@ public class Personnage {
 		xp = Constante.XP_BASE;
 		hp = Constante.HP_BASE;
 		lvl = Constante.LVL_BASE;
-		hpMax = 90 + lvl;
+		hpMax = 90 + 10 * lvl;
 		mp = Constante.MP_BASE;
 		mpMax = Constante.MP_MAX;
 		or = Constante.OR_BASE;
