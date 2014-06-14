@@ -119,6 +119,7 @@ public class FenetreDeJeu extends JFrame {
 		panelCarac.add(new JLabel(" "));
 
 		// Mana
+		perso.setMp(50);
 		mana.setValue(50);
 		mana.setForeground(Color.blue);
 		mana.setStringPainted(true);
