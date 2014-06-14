@@ -343,7 +343,6 @@ public class FenetreDeJeu extends JFrame {
 		getContentPane().removeAll();
 		removeKeyListener(listenerJeu);
 		initListenerCombat();
-		initReader(Constante.MAP_COMBAT);
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
 				if (i == 3 && j == 8) {

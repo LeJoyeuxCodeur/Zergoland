@@ -28,7 +28,6 @@ public class Constante {
 	public static final ImageIcon zombie_depl = new ImageIcon("ressources/images/cases/deplacement/zombie.png");
 	
 	// Mode combat
-	public static final String MAP_COMBAT = "ressources/mapsPattern/mapCombat.txt";
 	public static final ImageIcon casePersoAttaque = new ImageIcon("ressources/images/cases/attaque/Bryan2.png");
 	public static final ImageIcon caseVideCombat = new ImageIcon("ressources/images/cases/attaque/caseVideCombat.png");
 	public static final ImageIcon caseObstacle = new ImageIcon("ressources/images/cases/attaque/caseObstacle.png");
