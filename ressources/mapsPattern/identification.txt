@@ -7,3 +7,4 @@
 6 : Coffre Fermé
 7 : Barrière
 8 : Coffre Ouvert
+9 : Zombie
