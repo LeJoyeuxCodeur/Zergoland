@@ -14,6 +14,8 @@ public class Constante {
 	public static final ImageIcon maisonBG = new ImageIcon("ressources/images/cases/MaisonBG.png");
 	public static final ImageIcon maisonBD = new ImageIcon("ressources/images/cases/MaisonBD.png");
 	public static final ImageIcon coffre = new ImageIcon("ressources/images/cases/coffre.png");
+	public static final ImageIcon coffreOuvert = new ImageIcon("ressources/images/cases/coffreOuvert.png");
+	public static final ImageIcon barriere = new ImageIcon("ressources/images/cases/barriere.png");
 	public static final int HP_BASE = 100;
 	public static final int MP_BASE = 100;
 	public static final int XP_BASE = 0;

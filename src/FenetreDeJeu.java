@@ -168,6 +168,10 @@ public class FenetreDeJeu extends JFrame {
 					map[i][j] = new Case(Constante.maisonHD);
 				else if (pattern[i][j] == 6)
 					map[i][j] = new Case(Constante.coffre);
+				else if (pattern[i][j] == 7)
+					map[i][j] = new Case(Constante.barriere);
+				else if (pattern[i][j] == 8)
+					map[i][j] = new Case(Constante.coffreOuvert);
 
 				labels[i][j] = new JLabel();
 				labels[i][j].setIcon(map[i][j].getSkin());
