@@ -1,0 +1,9 @@
+0 : Case Vide
+1 : Arbre
+2 : Maison BG
+3 : Maison BD
+4 : Maison HG
+5 : Maison HD
+6 : Coffre Fermé
+7 : Barrière
+8 : Coffre Ouvert
