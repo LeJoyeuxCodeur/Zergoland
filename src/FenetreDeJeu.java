@@ -133,6 +133,7 @@ public class FenetreDeJeu extends JFrame {
 		panelCarac = new JPanel();
 		panelCarac.setLayout(new BoxLayout(panelCarac, BoxLayout.Y_AXIS));
 		panelCarac.setBorder(BorderFactory.createTitledBorder(null, s, TitledBorder.CENTER, TitledBorder.TOP, f, Color.BLACK));
+		panelCarac.setBackground(new Color(250, 240, 230));
 		panelCarac.add(new JLabel(" "));
 
 		// Nom
@@ -151,7 +152,7 @@ public class FenetreDeJeu extends JFrame {
 		// Vita
 		vita.setValue(perso.getHp());
 		vita.setStringPainted(true);
-		vita.setString(perso.getHp()+"/"+perso.getHpMax());
+		vita.setString(perso.getHp() + "/" + perso.getHpMax());
 		vita.setForeground(Color.RED);
 		vita.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.black));
 		tmp = new JLabel("Vitalité");
@@ -161,22 +162,22 @@ public class FenetreDeJeu extends JFrame {
 		panelCarac.add(new JLabel(" "));
 
 		// Mana
-		mana.setValue(50);
+		mana.setValue(perso.getMp());
 		mana.setForeground(Color.blue);
 		mana.setStringPainted(true);
-		mana.setString(perso.getMp()+"/"+perso.getManaMax());
+		mana.setString(perso.getMp() + "/" + perso.getManaMax());
 		mana.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.black));
 		tmp = new JLabel("Mana");
 		tmp.setFont(f);
 		panelCarac.add(tmp);
 		panelCarac.add(mana);
 		panelCarac.add(new JLabel(" "));
-		
+
 		// xp
-		xp.setValue(perso.getHp());
+		xp.setValue(perso.getXp());
 		xp.setForeground(Color.black);
 		xp.setStringPainted(true);
-		xp.setString("0/100");
+		xp.setString(perso.getXp() + "/100");
 		xp.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.black));
 		tmp = new JLabel("XP");
 		tmp.setFont(f);
