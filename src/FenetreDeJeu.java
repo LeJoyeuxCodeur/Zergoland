@@ -199,7 +199,7 @@ public class FenetreDeJeu extends JFrame {
 			}
 		}
 	}
-
+	
 	private class MoveListenerModeJeu implements KeyListener {
 		public void keyPressed(KeyEvent e) {
 			int x = coord.width;
@@ -268,7 +268,6 @@ public class FenetreDeJeu extends JFrame {
 		public void keyReleased(KeyEvent e) {}
 		public void keyTyped(KeyEvent e) {}
 	}
-
 	private class MoveListenerModeCombat implements KeyListener {
 		public void keyPressed(KeyEvent e) {
 			int x = coord.width;
@@ -335,7 +334,6 @@ public class FenetreDeJeu extends JFrame {
 		public void keyReleased(KeyEvent e) {}
 		public void keyTyped(KeyEvent e) {}
 	}
-
 	public void initMapCombat() {
 		panelMap = new JPanel();
 		panelMap.setLayout(new GridLayout(Constante.CASES_X, Constante.CASES_Y));
@@ -343,6 +341,9 @@ public class FenetreDeJeu extends JFrame {
 		labels = new JLabel[Constante.CASES_X][Constante.CASES_Y];
 
 		getContentPane().removeAll();
+		removeKeyListener(listenerJeu);
+		initListenerCombat();
+		initReader(Constante.MAP_COMBAT);
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
 				if (i == 3 && j == 8) {
