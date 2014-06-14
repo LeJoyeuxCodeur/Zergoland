@@ -31,19 +31,61 @@ public class FenetreDeJeu extends JFrame {
 	private int[][] pattern;
 	private MoveListenerModeJeu listenerJeu = new MoveListenerModeJeu();
 	private MoveListenerModeCombat listenerCombat = new MoveListenerModeCombat();
-	private Dimension coord;
+	private Dimension coordPerso, coordEnnemi;
 	private JPanel panelMap = new JPanel(), panelCarac = new JPanel();
 	private JInternalFrame frameInventaire;
 	private Personnage perso = new Personnage("Personnage_Test");
+	private Personnage ennemi = new Personnage("Ennemi");
+	private JProgressBar vitaEnnemi = new JProgressBar(0, ennemi.getHpMax());
+	private JProgressBar manaEnnemi = new JProgressBar(0, ennemi.getManaMax());
 
 	public FenetreDeJeu() {
 		super("ZergoLand");
 		setLayout(new BorderLayout());
 		initComposants();
 		initIventaire();
-		initCarac();
 		initMapJeu();
+		initCaracPerso();
+		initCaracEnnemi();
 		initFenetre();
+	}
+	private void initCaracEnnemi() {
+		JLabel tmp;
+		Font f = new Font("Arial", Font.PLAIN, 18);
+
+		// Nom
+		for (int i = 0; i < 4; i++)
+			panelCarac.add(new JLabel(" "));
+
+		tmp = new JLabel(ennemi.getNom());
+		tmp.setForeground(Color.RED);
+		tmp.setFont(new Font("Arial", Font.ITALIC, 15));
+		panelCarac.add(tmp);
+		panelCarac.add(new JLabel(" "));
+
+		// Vita
+		vitaEnnemi.setValue(ennemi.getHp());
+		vitaEnnemi.setStringPainted(true);
+		vitaEnnemi.setString(ennemi.getHp() + "/" + perso.getHpMax());
+		vitaEnnemi.setForeground(Color.RED);
+		vitaEnnemi.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.black));
+		tmp = new JLabel("Vitalité");
+		tmp.setFont(f);
+		panelCarac.add(tmp);
+		panelCarac.add(vitaEnnemi);
+		panelCarac.add(new JLabel(" "));
+
+		// Mana
+		manaEnnemi.setValue(ennemi.getMp());
+		manaEnnemi.setForeground(Color.blue);
+		manaEnnemi.setStringPainted(true);
+		manaEnnemi.setString(ennemi.getMp() + "/" + ennemi.getManaMax());
+		manaEnnemi.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.black));
+		tmp = new JLabel("Mana");
+		tmp.setFont(f);
+		panelCarac.add(tmp);
+		panelCarac.add(manaEnnemi);
+		panelCarac.add(new JLabel(" "));
 	}
 	private void initComposants() {
 		panelMap.setLayout(new GridLayout(Constante.CASES_X, Constante.CASES_Y));
@@ -78,7 +120,7 @@ public class FenetreDeJeu extends JFrame {
 		});
 		add(frameInventaire);
 	}
-	private void initCarac() {
+	private void initCaracPerso() {
 		String s = "Caractéristiques";
 		Font f = new Font("Arial", Font.PLAIN, 18);
 		JProgressBar vita = new JProgressBar(0, perso.getHpMax());
@@ -200,7 +242,7 @@ public class FenetreDeJeu extends JFrame {
 			for (int j = 0; j < map[0].length; j++) {
 				if (i == 3 && j == 8) {
 					map[i][j] = new Case(Constante.casePersoDeplacement);
-					coord = new Dimension(i, j);
+					coordPerso = new Dimension(i, j);
 				}
 				else if (pattern[i][j] == 0)
 					map[i][j] = new Case(Constante.caseVideDeplacement);
@@ -238,10 +280,12 @@ public class FenetreDeJeu extends JFrame {
 			for (int j = 0; j < map[0].length; j++) {
 				if (i == 3 && j == 8) {
 					map[i][j] = new Case(Constante.casePersoAttaque);
-					coord = new Dimension(i, j);
+					coordPerso = new Dimension(i, j);
 				}
-				else if (pattern[i][j] == 9)
+				else if (pattern[i][j] == 9) {
 					map[i][j] = new Case(Constante.zombie_att);
+					coordEnnemi = new Dimension(i, j);
+				}
 				else if (pattern[i][j] == 0)
 					map[i][j] = new Case(Constante.caseVideCombat);
 				else
@@ -256,8 +300,8 @@ public class FenetreDeJeu extends JFrame {
 
 	private class MoveListenerModeJeu implements KeyListener {
 		public void keyPressed(KeyEvent e) {
-			int x = coord.width;
-			int y = coord.height;
+			int x = coordPerso.width;
+			int y = coordPerso.height;
 
 			try {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER)
@@ -266,7 +310,7 @@ public class FenetreDeJeu extends JFrame {
 					// Case apres
 					if (pattern[x - 1][y] == 0) {
 						map[x - 1][y].setSkin(Constante.casePersoDeplacement); // deplacement du perso
-						coord = new Dimension(x - 1, y); // update coord
+						coordPerso = new Dimension(x - 1, y); // update coord
 
 						// Ajout au label
 						labels[x - 1][y].setIcon(map[x - 1][y].getSkin());
@@ -279,7 +323,7 @@ public class FenetreDeJeu extends JFrame {
 					// Case apres
 					if (pattern[x][y - 1] == 0) {
 						map[x][y - 1].setSkin(Constante.casePersoDeplacement); // deplacement du perso
-						coord = new Dimension(x, y - 1); // update coord
+						coordPerso = new Dimension(x, y - 1); // update coord
 
 						// Ajout au label
 						labels[x][y - 1].setIcon(map[x][y - 1].getSkin());
@@ -292,7 +336,7 @@ public class FenetreDeJeu extends JFrame {
 					// Case apres
 					if (pattern[x + 1][y] == 0) {
 						map[x + 1][y].setSkin(Constante.casePersoDeplacement); // deplacement du perso
-						coord = new Dimension(x + 1, y); // update coord
+						coordPerso = new Dimension(x + 1, y); // update coord
 
 						// Ajout au label
 						labels[x + 1][y].setIcon(map[x + 1][y].getSkin());
@@ -305,7 +349,7 @@ public class FenetreDeJeu extends JFrame {
 					// Case apres
 					if (pattern[x][y + 1] == 0) {
 						map[x][y + 1].setSkin(Constante.casePersoDeplacement); // deplacement du perso
-						coord = new Dimension(x, y + 1); // update coord
+						coordPerso = new Dimension(x, y + 1); // update coord
 
 						// Ajout au label
 						labels[x][y + 1].setIcon(map[x][y + 1].getSkin());
@@ -325,8 +369,8 @@ public class FenetreDeJeu extends JFrame {
 
 	private class MoveListenerModeCombat implements KeyListener {
 		public void keyPressed(KeyEvent e) {
-			int x = coord.width;
-			int y = coord.height;
+			int x = coordPerso.width;
+			int y = coordPerso.height;
 
 			try {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER)
@@ -335,7 +379,7 @@ public class FenetreDeJeu extends JFrame {
 					// Case apres
 					if (pattern[x - 1][y] == 0) {
 						map[x - 1][y].setSkin(Constante.casePersoAttaque); // deplacement du perso
-						coord = new Dimension(x - 1, y); // update coord
+						coordPerso = new Dimension(x - 1, y); // update coord
 
 						// Ajout au label
 						labels[x - 1][y].setIcon(map[x - 1][y].getSkin());
@@ -348,7 +392,7 @@ public class FenetreDeJeu extends JFrame {
 					// Case apres
 					if (pattern[x][y - 1] == 0) {
 						map[x][y - 1].setSkin(Constante.casePersoAttaque); // deplacement du perso
-						coord = new Dimension(x, y - 1); // update coord
+						coordPerso = new Dimension(x, y - 1); // update coord
 
 						// Ajout au label
 						labels[x][y - 1].setIcon(map[x][y - 1].getSkin());
@@ -361,7 +405,7 @@ public class FenetreDeJeu extends JFrame {
 					// Case apres
 					if (pattern[x + 1][y] == 0) {
 						map[x + 1][y].setSkin(Constante.casePersoAttaque); // deplacement du perso
-						coord = new Dimension(x + 1, y); // update coord
+						coordPerso = new Dimension(x + 1, y); // update coord
 
 						// Ajout au label
 						labels[x + 1][y].setIcon(map[x + 1][y].getSkin());
@@ -374,7 +418,7 @@ public class FenetreDeJeu extends JFrame {
 					// Case apres
 					if (pattern[x][y + 1] == 0) {
 						map[x][y + 1].setSkin(Constante.casePersoAttaque); // deplacement du perso
-						coord = new Dimension(x, y + 1); // update coord
+						coordPerso = new Dimension(x, y + 1); // update coord
 
 						// Ajout au label
 						labels[x][y + 1].setIcon(map[x][y + 1].getSkin());
