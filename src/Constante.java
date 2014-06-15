@@ -32,4 +32,8 @@ public class Constante {
 	public static final ImageIcon caseVideCombat = new ImageIcon("ressources/images/cases/modeCombat/caseVideCombat.png");
 	public static final ImageIcon caseObstacle = new ImageIcon("ressources/images/cases/modeCombat/caseObstacle.png");
 	public static final ImageIcon zombie_att = new ImageIcon("ressources/images/cases/modeCombat/zombie.png");
+	
+	// Items
+	public static final Item potion_sante = new Item("Potion de santé", new ImageIcon("ressources/images/item/potionSante.png"));
+	public static final Item potion_mana = new Item("Potion de mana", new ImageIcon("ressources/images/item/potionMana.png"));
 }

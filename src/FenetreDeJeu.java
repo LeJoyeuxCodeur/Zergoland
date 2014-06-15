@@ -10,6 +10,9 @@ import java.awt.event.KeyListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -42,6 +45,7 @@ public class FenetreDeJeu extends JFrame {
 	private JProgressBar xpPerso = new JProgressBar(0, perso.getHpMax());
 	private JProgressBar vitaEnnemi = new JProgressBar(0, ennemi.getHpMax());
 	private JProgressBar manaEnnemi = new JProgressBar(0, ennemi.getManaMax());
+	private Inventaire inventaire = new Inventaire();
 
 	public FenetreDeJeu() {
 		super("ZergoLand");
@@ -201,12 +205,40 @@ public class FenetreDeJeu extends JFrame {
 			}
 		}
 	}
+	private void ajoutObjetsDansInventaire() {
+		inventaire.ajoutItem(Constante.potion_mana, 3);
+		inventaire.ajoutItem(Constante.potion_sante, 3);
+	}
 	private void initIventaire() {
-		frameInventaire = new JInternalFrame("Inventaire", true, true, true);
-		frameInventaire.setSize(500, 250);
-		frameInventaire.setLocation(772, 420);
+		frameInventaire = new JInternalFrame("Inventaire", false, true, false);
+		frameInventaire.setBackground(Color.white);
 		frameInventaire.addInternalFrameListener(new InternalFrameListener() {
-			public void internalFrameOpened(InternalFrameEvent arg0) {}
+			public void internalFrameOpened(InternalFrameEvent arg0) {
+				int taille = 0;
+
+				ajoutObjetsDansInventaire();
+
+				Map<Item, Integer> inv = inventaire.getInventaire();
+				Set<Item> keysList = inv.keySet();
+				Collection<Integer> valuesList = inv.values();
+				Item[] keys = keysList.toArray(new Item[keysList.size()]);
+				Integer[] values = valuesList.toArray(new Integer[valuesList.size()]);
+
+				for (int i = 0; i < inv.size(); i++)
+					taille += values[i];
+				frameInventaire.setLayout(new GridLayout(0, taille));
+
+				for (int i = 0; i < inv.size(); i++) {
+					for (int j = 0; j < values[i]; j++) {
+						JLabel tmp = new JLabel(keys[i].getImage());
+
+						tmp.setBorder(BorderFactory.createLineBorder(Color.black, 2));
+						frameInventaire.add(tmp);
+					}
+				}
+				frameInventaire.setLocation(800, 500);
+				frameInventaire.pack();
+			}
 			public void internalFrameIconified(InternalFrameEvent arg0) {}
 			public void internalFrameDeiconified(InternalFrameEvent arg0) {}
 			public void internalFrameDeactivated(InternalFrameEvent arg0) {}
