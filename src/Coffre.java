@@ -1,13 +1,12 @@
 import java.util.LinkedList;
 
 public class Coffre {
-
 	private LinkedList<Item> contenuCoffre;
 	private String libelle;
 
 	public Coffre(LinkedList<Item> l, String libelle) {
-		this.contenuCoffre = l;
-		this.setLibelle(libelle);
+		contenuCoffre = l;
+		setLibelle(libelle);
 	}
 	public void ajoutItem(Item i) {
 		contenuCoffre.add(i);
@@ -16,14 +15,11 @@ public class Coffre {
 		contenuCoffre.addAll(l);
 	}
 	public void removeItem(Item i) {
-		if (contenuCoffre.contains(i)) {
+		if (contenuCoffre.contains(i))
 			contenuCoffre.remove(i);
-		}
 	}
 	public void removeAllItem() {
-		for (int i = 0; i < contenuCoffre.size(); i++) {
-			contenuCoffre.remove(0);
-		}
+		contenuCoffre.clear();
 	}
 	public String getLibelle() {
 		return libelle;
