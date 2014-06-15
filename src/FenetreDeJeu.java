@@ -206,8 +206,8 @@ public class FenetreDeJeu extends JFrame {
 		}
 	}
 	private void ajoutObjetsDansInventaire() {
-		inventaire.ajoutItem(Constante.potion_mana, 3);
-		inventaire.ajoutItem(Constante.potion_sante, 3);
+		inventaire.ajoutItem(Constante.potion_mana, 8);
+		inventaire.ajoutItem(Constante.potion_sante, 8);
 	}
 	private void initIventaire() {
 		frameInventaire = new JInternalFrame("Inventaire", false, true, false);
@@ -226,7 +226,7 @@ public class FenetreDeJeu extends JFrame {
 
 				for (int i = 0; i < inv.size(); i++)
 					taille += values[i];
-				frameInventaire.setLayout(new GridLayout(0, taille));
+				frameInventaire.setLayout(new GridLayout(3, taille));
 
 				for (int i = 0; i < inv.size(); i++) {
 					for (int j = 0; j < values[i]; j++) {
@@ -236,8 +236,8 @@ public class FenetreDeJeu extends JFrame {
 						frameInventaire.add(tmp);
 					}
 				}
-				frameInventaire.setLocation(800, 500);
-				frameInventaire.pack();
+				frameInventaire.setLocation(775, 470);
+				frameInventaire.setSize(500, 200);
 			}
 			public void internalFrameIconified(InternalFrameEvent arg0) {}
 			public void internalFrameDeiconified(InternalFrameEvent arg0) {}
