@@ -33,9 +33,13 @@ public class FenetreDeJeu extends JFrame {
 	private MoveListenerModeCombat listenerCombat = new MoveListenerModeCombat();
 	private Dimension coordPerso, coordEnnemi;
 	private JPanel panelMap = new JPanel(), panelCarac = new JPanel();
+	private JLabel lvlPerso = new JLabel(), orPerso = new JLabel();
 	private JInternalFrame frameInventaire;
 	private Personnage perso = new Personnage("Personnage_Test");
 	private Personnage ennemi = new Personnage("Ennemi");
+	private JProgressBar vitaPerso = new JProgressBar(0, perso.getHpMax());
+	private JProgressBar manaPerso = new JProgressBar(0, perso.getManaMax());
+	private JProgressBar xpPerso = new JProgressBar(0, perso.getHpMax());
 	private JProgressBar vitaEnnemi = new JProgressBar(0, ennemi.getHpMax());
 	private JProgressBar manaEnnemi = new JProgressBar(0, ennemi.getManaMax());
 
@@ -47,9 +51,84 @@ public class FenetreDeJeu extends JFrame {
 		initMapJeu();
 		initCaracPerso();
 		initCaracEnnemi();
+		addCaracPerso();
+		addCaracEnemi();
+		add(panelCarac);
 		initFenetre();
 	}
-	private void initCaracEnnemi() {
+	private void addCaracPerso() {
+		String s = "Caractéristiques";
+		Font f = new Font("Arial", Font.PLAIN, 18);
+		JLabel tmp;
+		JButton inventaire = new JButton("Inventaire");
+
+		// Panel Carac
+		panelCarac = new JPanel();
+		panelCarac.setLayout(new BoxLayout(panelCarac, BoxLayout.Y_AXIS));
+		panelCarac.setBorder(BorderFactory.createTitledBorder(null, s, TitledBorder.CENTER, TitledBorder.TOP, f, Color.BLACK));
+		panelCarac.setBackground(new Color(250, 240, 230));
+		panelCarac.add(new JLabel(" "));
+
+		// Nom
+		tmp = new JLabel(perso.getNom());
+		tmp.setForeground(Color.RED);
+		tmp.setFont(new Font("Arial", Font.ITALIC, 15));
+		panelCarac.add(tmp);
+		panelCarac.add(new JLabel(" "));
+
+		// Lvl
+		tmp = new JLabel("Lvl " + perso.getLvl());
+		tmp.setFont(new Font("Arial", Font.ITALIC, 22));
+		panelCarac.add(tmp);
+		panelCarac.add(new JLabel(" "));
+		lvlPerso.setFont(new Font("Arial", Font.ITALIC, 22));
+
+		// Vita
+		vitaPerso.setStringPainted(true);
+		vitaPerso.setForeground(Color.RED);
+		vitaPerso.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.black));
+		tmp = new JLabel("Vitalité");
+		tmp.setFont(f);
+		panelCarac.add(tmp);
+		panelCarac.add(vitaPerso);
+		panelCarac.add(new JLabel(" "));
+
+		// Mana
+		manaPerso.setForeground(Color.blue);
+		manaPerso.setStringPainted(true);
+		manaPerso.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.black));
+		tmp = new JLabel("Mana");
+		tmp.setFont(f);
+		panelCarac.add(tmp);
+		panelCarac.add(manaPerso);
+		panelCarac.add(new JLabel(" "));
+
+		// xp
+		xpPerso.setValue(perso.getXp());
+		xpPerso.setForeground(Color.black);
+		xpPerso.setStringPainted(true);
+		xpPerso.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.black));
+		tmp = new JLabel("XP");
+		tmp.setFont(f);
+		panelCarac.add(tmp);
+		panelCarac.add(xpPerso);
+		panelCarac.add(new JLabel(" "));
+
+		// Or
+		tmp = new JLabel("Or:    " + perso.getOr() + " pièces");
+		tmp.setFont(f);
+		panelCarac.add(tmp);
+		panelCarac.add(new JLabel(" "));
+
+		// Bouton inventaire
+		inventaire.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frameInventaire.setVisible(true);
+			}
+		});
+		panelCarac.add(inventaire);
+	}
+	private void addCaracEnemi() {
 		JLabel tmp;
 		Font f = new Font("Arial", Font.PLAIN, 18);
 
@@ -64,28 +143,51 @@ public class FenetreDeJeu extends JFrame {
 		panelCarac.add(new JLabel(" "));
 
 		// Vita
-		vitaEnnemi.setValue(ennemi.getHp());
-		vitaEnnemi.setStringPainted(true);
-		vitaEnnemi.setString(ennemi.getHp() + "/" + perso.getHpMax());
-		vitaEnnemi.setForeground(Color.RED);
-		vitaEnnemi.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.black));
 		tmp = new JLabel("Vitalité");
 		tmp.setFont(f);
-		panelCarac.add(tmp);
+		vitaEnnemi.setStringPainted(true);
+		vitaEnnemi.setForeground(Color.RED);
+		vitaEnnemi.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.black));
 		panelCarac.add(vitaEnnemi);
 		panelCarac.add(new JLabel(" "));
 
 		// Mana
-		manaEnnemi.setValue(ennemi.getMp());
-		manaEnnemi.setForeground(Color.blue);
-		manaEnnemi.setStringPainted(true);
-		manaEnnemi.setString(ennemi.getMp() + "/" + ennemi.getManaMax());
-		manaEnnemi.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.black));
 		tmp = new JLabel("Mana");
 		tmp.setFont(f);
 		panelCarac.add(tmp);
+		manaEnnemi.setForeground(Color.blue);
+		manaEnnemi.setStringPainted(true);
+		manaEnnemi.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.black));
 		panelCarac.add(manaEnnemi);
 		panelCarac.add(new JLabel(" "));
+	}
+	private void initCaracEnnemi() {
+		// Vita
+		vitaEnnemi.setString(ennemi.getHp() + "/" + perso.getHpMax());
+		vitaEnnemi.setValue(ennemi.getHp());
+
+		// Mana
+		manaEnnemi.setString(ennemi.getMp() + "/" + ennemi.getManaMax());
+		manaEnnemi.setValue(ennemi.getMp());
+	}
+	private void initCaracPerso() {
+		// Lvl
+		lvlPerso.setText("Lvl " + perso.getLvl());
+
+		// Vita
+		vitaPerso.setString(perso.getHp() + "/" + perso.getHpMax());
+		vitaPerso.setValue(perso.getHp());
+
+		// Mana
+		manaPerso.setString(perso.getMp() + "/" + perso.getManaMax());
+		manaPerso.setValue(perso.getMp());
+
+		// xp
+		xpPerso.setString(perso.getXp() + "/" + 500);
+		xpPerso.setValue(perso.getXp());
+
+		// Or
+		orPerso.setText("Or:    " + perso.getOr() + " pièces");
 	}
 	private void initComposants() {
 		panelMap.setLayout(new GridLayout(Constante.CASES_X, Constante.CASES_Y));
@@ -119,88 +221,6 @@ public class FenetreDeJeu extends JFrame {
 			}
 		});
 		add(frameInventaire);
-	}
-	private void initCaracPerso() {
-		String s = "Caractéristiques";
-		Font f = new Font("Arial", Font.PLAIN, 18);
-		JProgressBar vita = new JProgressBar(0, perso.getHpMax());
-		JProgressBar mana = new JProgressBar(0, perso.getManaMax());
-		JProgressBar xp = new JProgressBar(0, 100);
-		JLabel tmp;
-		JButton inventaire = new JButton("Inventaire");
-
-		// Panel Carac
-		panelCarac = new JPanel();
-		panelCarac.setLayout(new BoxLayout(panelCarac, BoxLayout.Y_AXIS));
-		panelCarac.setBorder(BorderFactory.createTitledBorder(null, s, TitledBorder.CENTER, TitledBorder.TOP, f, Color.BLACK));
-		panelCarac.setBackground(new Color(250, 240, 230));
-		panelCarac.add(new JLabel(" "));
-
-		// Nom
-		tmp = new JLabel(perso.getNom());
-		tmp.setForeground(Color.RED);
-		tmp.setFont(new Font("Arial", Font.ITALIC, 15));
-		panelCarac.add(tmp);
-		panelCarac.add(new JLabel(" "));
-
-		// Lvl
-		tmp = new JLabel("Lvl " + perso.getLvl());
-		tmp.setFont(new Font("Arial", Font.ITALIC, 22));
-		panelCarac.add(tmp);
-		panelCarac.add(new JLabel(" "));
-
-		// Vita
-		vita.setValue(perso.getHp());
-		vita.setStringPainted(true);
-		vita.setString(perso.getHp() + "/" + perso.getHpMax());
-		vita.setForeground(Color.RED);
-		vita.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.black));
-		tmp = new JLabel("Vitalité");
-		tmp.setFont(f);
-		panelCarac.add(tmp);
-		panelCarac.add(vita);
-		panelCarac.add(new JLabel(" "));
-
-		// Mana
-		mana.setValue(perso.getMp());
-		mana.setForeground(Color.blue);
-		mana.setStringPainted(true);
-		mana.setString(perso.getMp() + "/" + perso.getManaMax());
-		mana.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.black));
-		tmp = new JLabel("Mana");
-		tmp.setFont(f);
-		panelCarac.add(tmp);
-		panelCarac.add(mana);
-		panelCarac.add(new JLabel(" "));
-
-		// xp
-		xp.setValue(perso.getXp());
-		xp.setForeground(Color.black);
-		xp.setStringPainted(true);
-		xp.setString(perso.getXp() + "/100");
-		xp.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.black));
-		tmp = new JLabel("XP");
-		tmp.setFont(f);
-		panelCarac.add(tmp);
-		panelCarac.add(xp);
-		panelCarac.add(new JLabel(" "));
-
-		// Or
-		tmp = new JLabel("Or:    " + perso.getOr() + " pièces");
-		tmp.setFont(f);
-		panelCarac.add(tmp);
-		panelCarac.add(new JLabel(" "));
-
-		// Bouton inventaire
-		inventaire.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				frameInventaire.setVisible(true);
-			}
-		});
-		panelCarac.add(inventaire);
-
-		// Final add
-		add(panelCarac);
 	}
 	private void initListenerJeu() {
 		setFocusable(true);
@@ -374,8 +394,17 @@ public class FenetreDeJeu extends JFrame {
 			int y = coordPerso.height;
 
 			try {
-				if (e.getKeyCode() == KeyEvent.VK_ENTER)
+				if (e.getKeyCode() == KeyEvent.VK_ENTER || combatFini()) { // Combat fini
+					ennemi.setHp(ennemi.getHpMax());
+					perso.setHp(perso.getHpMax());
+					initCaracEnnemi();
+					initCaracPerso();
 					initMapJeu();
+				}
+				else if (e.getKeyCode() == KeyEvent.VK_SPACE) { // Attaque
+					ennemi.setHp(ennemi.getHp() - 1);
+					initCaracEnnemi();
+				}
 				else if (e.getKeyCode() == KeyEvent.VK_Z || e.getKeyCode() == KeyEvent.VK_UP) {
 					// Case apres
 					if (pattern[x - 1][y] == 0) {
@@ -432,6 +461,9 @@ public class FenetreDeJeu extends JFrame {
 				labels[x][y].setIcon(map[x][y].getSkin());
 			}
 			catch (java.lang.ArrayIndexOutOfBoundsException ex) {}
+		}
+		private boolean combatFini() {
+			return (ennemi.getHp() - 1 < 1 || perso.getHp() - 1 < 1);
 		}
 		public void keyReleased(KeyEvent e) {}
 		public void keyTyped(KeyEvent e) {}
