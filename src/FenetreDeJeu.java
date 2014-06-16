@@ -36,8 +36,8 @@ public class FenetreDeJeu extends JFrame {
 	private JLabel[][] labels;
 	private BufferedReader reader;
 	private int[][] pattern;
-	private MoveListenerModeJeu listenerJeu = new MoveListenerModeJeu();
-	private MoveListenerModeCombat listenerCombat = new MoveListenerModeCombat();
+	private ListenerModeJeu listenerJeu = new ListenerModeJeu();
+	private ListenerModeCombat listenerCombat = new ListenerModeCombat();
 	private Dimension coordPerso, coordEnnemi;
 	private JPanel panelMap = new JPanel(), panelCarac = new JPanel();
 	private JLabel lvlPerso = new JLabel(), orPerso = new JLabel();
@@ -137,38 +137,15 @@ public class FenetreDeJeu extends JFrame {
 		panelCarac.add(inventaire);
 	}
 	private void addCaracEnemi() {
-		JLabel tmp;
-		Font f = new Font("Arial", Font.PLAIN, 18);
-
-		panelCarac.add(new JLabel(" "));
-		panelCarac.add(new JLabel("- - - - - - - - - - - - - - - - - - - - - - -"));
-
-		// Nom
-		tmp = new JLabel(ennemi.getNom());
-		tmp.setForeground(Color.RED);
-		tmp.setFont(new Font("Arial", Font.ITALIC, 15));
-		panelCarac.add(tmp);
-		panelCarac.add(new JLabel(" "));
-
 		// Vita
-		tmp = new JLabel("Vitalité");
-		tmp.setFont(f);
-		panelCarac.add(tmp);
 		vitaEnnemi.setStringPainted(true);
 		vitaEnnemi.setForeground(Color.RED);
 		vitaEnnemi.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.black));
-		panelCarac.add(vitaEnnemi);
-		panelCarac.add(new JLabel(" "));
 
 		// Mana
-		tmp = new JLabel("Mana");
-		tmp.setFont(f);
-		panelCarac.add(tmp);
 		manaEnnemi.setForeground(Color.blue);
 		manaEnnemi.setStringPainted(true);
 		manaEnnemi.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.black));
-		panelCarac.add(manaEnnemi);
-		panelCarac.add(new JLabel(" "));
 	}
 	private void initCaracEnnemi() {
 		// Vita
@@ -271,7 +248,7 @@ public class FenetreDeJeu extends JFrame {
 				JPopupMenu choix = new JPopupMenu();
 				JMenuItem examiner = new JMenuItem("Examiner");
 				JMenuItem action = new JMenuItem();
-				
+
 				choix.add(examiner);
 				choix.add(action);
 
@@ -297,6 +274,7 @@ public class FenetreDeJeu extends JFrame {
 		setFocusable(true);
 		requestFocusInWindow();
 		addKeyListener(listenerCombat);
+		panelMap.addMouseMotionListener(listenerCombat);
 	}
 	private void initFenetre() {
 		setSize(1280, 700);
@@ -386,7 +364,7 @@ public class FenetreDeJeu extends JFrame {
 		panelMap.repaint();
 	}
 
-	private class MoveListenerModeJeu implements KeyListener {
+	private class ListenerModeJeu implements KeyListener {
 		public void keyPressed(KeyEvent e) {
 			int x = coordPerso.width;
 			int y = coordPerso.height;
@@ -455,7 +433,22 @@ public class FenetreDeJeu extends JFrame {
 		public void keyTyped(KeyEvent e) {}
 	}
 
-	private class MoveListenerModeCombat implements KeyListener {
+	private class ListenerModeCombat extends MouseAdapter implements KeyListener {
+		public void mouseMoved(MouseEvent e) {
+			JPopupMenu panel = new JPopupMenu();
+			int x = e.getY() / 45;
+			int y = e.getX() / 50;
+			
+			if(labels[x][y].getIcon() == Constante.zombie_att){
+				panel.add(vitaEnnemi);
+				panel.add(manaEnnemi);
+				panel.show(panelMap, e.getX() - 50, e.getY() - 100);
+			}
+			else{
+				panel.removeAll();
+				panel.show(panelMap, e.getX() - 50, e.getY() - 100);
+			}
+		}
 		public void keyPressed(KeyEvent e) {
 			int x = coordPerso.width;
 			int y = coordPerso.height;
@@ -529,10 +522,12 @@ public class FenetreDeJeu extends JFrame {
 			}
 			catch (java.lang.ArrayIndexOutOfBoundsException ex) {}
 		}
+		public void keyReleased(KeyEvent arg0) {
+		}
+		public void keyTyped(KeyEvent arg0) {
+		}
 		private boolean combatFini() {
 			return (ennemi.getHp() - 1 < 1 || perso.getHp() - 1 < 1);
 		}
-		public void keyReleased(KeyEvent e) {}
-		public void keyTyped(KeyEvent e) {}
 	}
 }
