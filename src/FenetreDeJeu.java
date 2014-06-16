@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -149,6 +151,7 @@ public class FenetreDeJeu extends JFrame {
 		// Vita
 		tmp = new JLabel("Vitalité");
 		tmp.setFont(f);
+		panelCarac.add(tmp);
 		vitaEnnemi.setStringPainted(true);
 		vitaEnnemi.setForeground(Color.RED);
 		vitaEnnemi.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.black));
@@ -204,6 +207,20 @@ public class FenetreDeJeu extends JFrame {
 				labels[i][j] = new JLabel();
 			}
 		}
+
+		panelMap.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				for (int i = 0; i < labels.length; i++) {
+					for (int j = 0; j < labels[0].length; j++) {
+						if (e.getX() > j * 50 && e.getX() < (j + 1) * 50) {
+							if (e.getY() > i * 45 && e.getY() < (i + 1) * 45) {
+								System.out.println(labels[i][j].getIcon());
+							}
+						}
+					}
+				}
+			}
+		});
 	}
 	private void ajoutObjetsDansInventaire() {
 		inventaire.ajoutItem(Constante.potion_mana, 8);
