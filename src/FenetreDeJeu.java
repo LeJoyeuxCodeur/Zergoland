@@ -209,20 +209,6 @@ public class FenetreDeJeu extends JFrame {
 				labels[i][j] = new JLabel();
 			}
 		}
-
-		panelMap.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				for (int i = 0; i < labels.length; i++) {
-					for (int j = 0; j < labels[0].length; j++) {
-						if (e.getX() > j * 50 && e.getX() < (j + 1) * 50) {
-							if (e.getY() > i * 45 && e.getY() < (i + 1) * 45) {
-								System.out.println(labels[i][j].getIcon());
-							}
-						}
-					}
-				}
-			}
-		});
 	}
 	private void ajoutObjetsDansInventaire() {
 		inventaire.ajoutItem(Constante.potion_mana, 8);
@@ -277,6 +263,35 @@ public class FenetreDeJeu extends JFrame {
 		setFocusable(true);
 		requestFocusInWindow();
 		addKeyListener(listenerJeu);
+		panelMap.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				int i = e.getY() / 45;
+				int j = e.getX() / 50;
+
+				JPopupMenu choix = new JPopupMenu();
+				JMenuItem examiner = new JMenuItem("Examiner");
+				JMenuItem action = new JMenuItem();
+				
+				choix.add(examiner);
+				choix.add(action);
+
+				// test coffre
+				if (labels[i][j].getIcon() == Constante.coffre) {
+					action.setText("Ouvrir");
+					choix.show(panelMap, e.getX(), e.getY());
+				}
+				// test porte
+				else if (labels[i][j].getIcon() == Constante.maisonBG) {
+					action.setText("Entrer");
+					choix.show(panelMap, e.getX(), e.getY());
+				}
+				// test ennemi
+				else if (labels[i][j].getIcon() == Constante.zombie_depl) {
+					action.setText("Attaquer");
+					choix.show(panelMap, e.getX(), e.getY());
+				}
+			};
+		});
 	}
 	private void initListenerCombat() {
 		setFocusable(true);
@@ -310,54 +325,7 @@ public class FenetreDeJeu extends JFrame {
 		panelMap.removeAll();
 		removeKeyListener(listenerCombat);
 		initListenerJeu();
-		// ------------------------------------TEST----------------------------------------------
-		MouseAdapter analyseClic = new MouseAdapter() {
-			@Override	
-			public void mouseClicked(MouseEvent e) {
-				int j = ((e.getX()+1) / 50);
-				int i = ((e.getY()+1) / 45);
-				// test coffre
-				if (e.getX() > j * 50 && e.getX() < (j + 1) * 50) {	
-					if(e.getY() > i * 45 && e.getY() < (i + 1) * 45) {
-						if(labels[i][j].getIcon().toString().equals("ressources/images/cases/modeJeu/coffre.png")) {
-							JPopupMenu choix = new JPopupMenu();
-							JMenuItem examiner = new JMenuItem("Examiner");
-							JMenuItem ouvrir = new JMenuItem("Ouvrir");
-							choix.add(examiner);
-							choix.add(ouvrir);
-							choix.show(panelMap, e.getX(), e.getY());
-						}
-					}
-				}
-				// test porte
-				if (e.getX() > j * 50 && e.getX() < (j + 1) * 50) {	
-					if(e.getY() > i * 45 && e.getY() < (i + 1) * 45) {
-						if(labels[i][j].getIcon().toString().equals("ressources/images/cases/modeJeu/MaisonBG.png")) {
-							JPopupMenu choix = new JPopupMenu();
-							JMenuItem examiner = new JMenuItem("Examiner");
-							JMenuItem ouvrir = new JMenuItem("Entrer");
-							choix.add(examiner);
-							choix.add(ouvrir);
-							choix.show(panelMap, e.getX(), e.getY());
-						}
-					}
-				}
-				// test ennemi
-				if (e.getX() > j * 50 && e.getX() < (j + 1) * 50) {	
-					if(e.getY() > i * 45 && e.getY() < (i + 1) * 45) {
-						if(labels[i][j].getIcon().toString().equals("ressources/images/cases/modeJeu/zombie.png")) {
-							JPopupMenu choix = new JPopupMenu();
-							JMenuItem examiner = new JMenuItem("Examiner");
-							JMenuItem ouvrir = new JMenuItem("Attaquer");
-							choix.add(examiner);
-							choix.add(ouvrir);
-							choix.show(panelMap, e.getX(), e.getY());
-						}
-					}
-				}
-			}
-		};
-		// --------------------------------------------------------------------------------------
+
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
 				if (i == 3 && j == 8) {
@@ -390,7 +358,6 @@ public class FenetreDeJeu extends JFrame {
 				add(panelMap, BorderLayout.WEST);
 			}
 		}
-		panelMap.addMouseListener(analyseClic);
 		panelMap.repaint();
 	}
 	private void initMapCombat() {
