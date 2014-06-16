@@ -22,7 +22,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JProgressBar;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.InternalFrameEvent;
@@ -308,6 +310,54 @@ public class FenetreDeJeu extends JFrame {
 		panelMap.removeAll();
 		removeKeyListener(listenerCombat);
 		initListenerJeu();
+		// ------------------------------------TEST----------------------------------------------
+		MouseAdapter analyseClic = new MouseAdapter() {
+			@Override	
+			public void mouseClicked(MouseEvent e) {
+				int j = ((e.getX()+1) / 50);
+				int i = ((e.getY()+1) / 45);
+				// test coffre
+				if (e.getX() > j * 50 && e.getX() < (j + 1) * 50) {	
+					if(e.getY() > i * 45 && e.getY() < (i + 1) * 45) {
+						if(labels[i][j].getIcon().toString().equals("ressources/images/cases/modeJeu/coffre.png")) {
+							JPopupMenu choix = new JPopupMenu();
+							JMenuItem examiner = new JMenuItem("Examiner");
+							JMenuItem ouvrir = new JMenuItem("Ouvrir");
+							choix.add(examiner);
+							choix.add(ouvrir);
+							choix.show(panelMap, e.getX(), e.getY());
+						}
+					}
+				}
+				// test porte
+				if (e.getX() > j * 50 && e.getX() < (j + 1) * 50) {	
+					if(e.getY() > i * 45 && e.getY() < (i + 1) * 45) {
+						if(labels[i][j].getIcon().toString().equals("ressources/images/cases/modeJeu/MaisonBG.png")) {
+							JPopupMenu choix = new JPopupMenu();
+							JMenuItem examiner = new JMenuItem("Examiner");
+							JMenuItem ouvrir = new JMenuItem("Entrer");
+							choix.add(examiner);
+							choix.add(ouvrir);
+							choix.show(panelMap, e.getX(), e.getY());
+						}
+					}
+				}
+				// test ennemi
+				if (e.getX() > j * 50 && e.getX() < (j + 1) * 50) {	
+					if(e.getY() > i * 45 && e.getY() < (i + 1) * 45) {
+						if(labels[i][j].getIcon().toString().equals("ressources/images/cases/modeJeu/zombie.png")) {
+							JPopupMenu choix = new JPopupMenu();
+							JMenuItem examiner = new JMenuItem("Examiner");
+							JMenuItem ouvrir = new JMenuItem("Attaquer");
+							choix.add(examiner);
+							choix.add(ouvrir);
+							choix.show(panelMap, e.getX(), e.getY());
+						}
+					}
+				}
+			}
+		};
+		// --------------------------------------------------------------------------------------
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
 				if (i == 3 && j == 8) {
@@ -340,6 +390,7 @@ public class FenetreDeJeu extends JFrame {
 				add(panelMap, BorderLayout.WEST);
 			}
 		}
+		panelMap.addMouseListener(analyseClic);
 		panelMap.repaint();
 	}
 	private void initMapCombat() {
