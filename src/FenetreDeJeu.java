@@ -448,6 +448,8 @@ public class FenetreDeJeu extends JFrame {
 				panel.removeAll();
 				panel.show(panelMap, e.getX() - 50, e.getY() - 100);
 			}
+			setFocusable(true);
+			requestFocusInWindow();
 		}
 		public void keyPressed(KeyEvent e) {
 			int x = coordPerso.width;
