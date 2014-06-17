@@ -242,30 +242,34 @@ public class FenetreDeJeu extends JFrame {
 		addKeyListener(listenerJeu);
 		panelMap.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
+				JPopupMenu popMenu = new JPopupMenu();
+				JMenuItem action = new JMenuItem();
 				int i = e.getY() / 45;
 				int j = e.getX() / 50;
-
-				JPopupMenu choix = new JPopupMenu();
-				JMenuItem examiner = new JMenuItem("Examiner");
-				JMenuItem action = new JMenuItem();
-
-				choix.add(examiner);
-				choix.add(action);
+				
+				popMenu.add(action);
+				action.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if(e.getActionCommand().equals("Attaquer"))
+							initMapCombat();
+					}
+				});
 
 				// test coffre
 				if (labels[i][j].getIcon() == Constante.coffre) {
+					popMenu.add(new JMenuItem("Examiner"));
 					action.setText("Ouvrir");
-					choix.show(panelMap, e.getX(), e.getY());
+					popMenu.show(panelMap, e.getX(), e.getY());
 				}
 				// test porte
 				else if (labels[i][j].getIcon() == Constante.maisonBG) {
 					action.setText("Entrer");
-					choix.show(panelMap, e.getX(), e.getY());
+					popMenu.show(panelMap, e.getX(), e.getY());
 				}
 				// test ennemi
 				else if (labels[i][j].getIcon() == Constante.zombie_depl) {
 					action.setText("Attaquer");
-					choix.show(panelMap, e.getX(), e.getY());
+					popMenu.show(panelMap, e.getX(), e.getY());
 				}
 			};
 		});
@@ -370,9 +374,7 @@ public class FenetreDeJeu extends JFrame {
 			int y = coordPerso.height;
 
 			try {
-				if (e.getKeyCode() == KeyEvent.VK_ENTER)
-					initMapCombat();
-				else if (e.getKeyCode() == KeyEvent.VK_Z || e.getKeyCode() == KeyEvent.VK_UP) {
+				if (e.getKeyCode() == KeyEvent.VK_Z || e.getKeyCode() == KeyEvent.VK_UP) {
 					// Case apres
 					if (pattern[x - 1][y] == 0) {
 						map[x - 1][y].setSkin(Constante.casePersoDeplacement); // deplacement du perso
@@ -456,7 +458,7 @@ public class FenetreDeJeu extends JFrame {
 			int y = coordPerso.height;
 
 			try {
-				if (e.getKeyCode() == KeyEvent.VK_ENTER || combatFini()) { // Combat fini
+				if (combatFini()) {
 					ennemi.setHp(ennemi.getHpMax());
 					perso.setHp(perso.getHpMax());
 					initCaracEnnemi();
