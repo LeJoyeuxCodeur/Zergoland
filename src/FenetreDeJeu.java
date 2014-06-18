@@ -14,6 +14,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import javax.swing.BorderFactory;
@@ -50,6 +51,7 @@ public class FenetreDeJeu extends JFrame {
 	private JProgressBar vitaEnnemi = new JProgressBar(0, ennemi.getHpMax());
 	private JProgressBar manaEnnemi = new JProgressBar(0, ennemi.getManaMax());
 	private Inventaire inventaire = new Inventaire();
+	private boolean tourDuJoueur = true;
 
 	public FenetreDeJeu() {
 		super("ZergoLand");
@@ -246,11 +248,11 @@ public class FenetreDeJeu extends JFrame {
 				JMenuItem action = new JMenuItem();
 				int i = e.getY() / 45;
 				int j = e.getX() / 50;
-				
+
 				popMenu.add(action);
 				action.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						if(e.getActionCommand().equals("Attaquer"))
+						if (e.getActionCommand().equals("Attaquer"))
 							initMapCombat();
 					}
 				});
@@ -440,13 +442,13 @@ public class FenetreDeJeu extends JFrame {
 			JPopupMenu panel = new JPopupMenu();
 			int x = e.getY() / 45;
 			int y = e.getX() / 50;
-			
-			if(labels[x][y].getIcon() == Constante.zombie_att){
+
+			if (labels[x][y].getIcon() == Constante.zombie_att) {
 				panel.add(vitaEnnemi);
 				panel.add(manaEnnemi);
 				panel.show(panelMap, e.getX() - 50, e.getY() - 100);
 			}
-			else{
+			else {
 				panel.removeAll();
 				panel.show(panelMap, e.getX() - 50, e.getY() - 100);
 			}
@@ -454,9 +456,6 @@ public class FenetreDeJeu extends JFrame {
 			requestFocusInWindow();
 		}
 		public void keyPressed(KeyEvent e) {
-			int x = coordPerso.width;
-			int y = coordPerso.height;
-
 			try {
 				if (combatFini()) {
 					ennemi.setHp(ennemi.getHpMax());
@@ -465,7 +464,12 @@ public class FenetreDeJeu extends JFrame {
 					initCaracPerso();
 					initMapJeu();
 				}
-				else if (e.getKeyCode() == KeyEvent.VK_SPACE) { // Attaque
+
+				// ---- Tour Joueur --------------
+				int x = coordPerso.width;
+				int y = coordPerso.height;
+
+				if (e.getKeyCode() == KeyEvent.VK_SPACE) { // Attaque
 					ennemi.setHp(ennemi.getHp() - 1);
 					initCaracEnnemi();
 				}
@@ -480,6 +484,8 @@ public class FenetreDeJeu extends JFrame {
 
 						// Case avant
 						map[x][y].setSkin(Constante.caseVideCombat);
+
+						tourDuJoueur = false;
 					}
 				}
 				else if (e.getKeyCode() == KeyEvent.VK_Q || e.getKeyCode() == KeyEvent.VK_LEFT) {
@@ -493,6 +499,8 @@ public class FenetreDeJeu extends JFrame {
 
 						// Case avant
 						map[x][y].setSkin(Constante.caseVideCombat);
+
+						tourDuJoueur = false;
 					}
 				}
 				else if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN) {
@@ -506,6 +514,8 @@ public class FenetreDeJeu extends JFrame {
 
 						// Case avant
 						map[x][y].setSkin(Constante.caseVideCombat);
+
+						tourDuJoueur = false;
 					}
 				}
 				else if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT) {
@@ -519,17 +529,90 @@ public class FenetreDeJeu extends JFrame {
 
 						// Case avant
 						map[x][y].setSkin(Constante.caseVideCombat);
+
+						tourDuJoueur = false;
 					}
 				}
 				// Ajout au label
 				labels[x][y].setIcon(map[x][y].getSkin());
+
+				// repaint
+				panelMap.paintImmediately(0, 0, panelMap.getWidth(), panelMap.getHeight());
+
+				// pause
+				Thread.sleep(500);
+
+				// ----- Tour IA -------------------------
+				while (!tourDuJoueur) {
+					Random r = new Random();
+					int choix = r.nextInt(4) + 1;
+					x = coordEnnemi.width;
+					y = coordEnnemi.height;
+
+					if (choix == 1) {
+						// Case apres
+						if (pattern[x - 1][y] == 0) {
+							map[x - 1][y].setSkin(Constante.zombie_att); // deplacement du perso
+							coordEnnemi = new Dimension(x - 1, y); // update coord
+
+							// Ajout au label
+							labels[x - 1][y].setIcon(map[x - 1][y].getSkin());
+
+							// Case avant
+							map[x][y].setSkin(Constante.caseVideCombat);
+							tourDuJoueur = true;
+						}
+					}
+					else if (choix == 2) {
+						// Case apres
+						if (pattern[x][y - 1] == 0) {
+							map[x][y - 1].setSkin(Constante.zombie_att); // deplacement du perso
+							coordEnnemi = new Dimension(x, y - 1); // update coord
+
+							// Ajout au label
+							labels[x][y - 1].setIcon(map[x][y - 1].getSkin());
+
+							// Case avant
+							map[x][y].setSkin(Constante.caseVideCombat);
+							tourDuJoueur = true;
+						}
+					}
+					else if (choix == 3) {
+						// Case apres
+						if (pattern[x + 1][y] == 0) {
+							map[x + 1][y].setSkin(Constante.zombie_att); // deplacement du perso
+							coordEnnemi = new Dimension(x + 1, y); // update coord
+
+							// Ajout au label
+							labels[x + 1][y].setIcon(map[x + 1][y].getSkin());
+
+							// Case avant
+							map[x][y].setSkin(Constante.caseVideCombat);
+							tourDuJoueur = true;
+						}
+					}
+					else {
+						// Case apres
+						if (pattern[x][y + 1] == 0) {
+							map[x][y + 1].setSkin(Constante.zombie_att); // deplacement du perso
+							coordEnnemi = new Dimension(x, y + 1); // update coord
+
+							// Ajout au label
+							labels[x][y + 1].setIcon(map[x][y + 1].getSkin());
+
+							// Case avant
+							map[x][y].setSkin(Constante.caseVideCombat);
+							tourDuJoueur = true;
+						}
+					}
+					// Ajout au label
+					labels[x][y].setIcon(map[x][y].getSkin());
+				}
 			}
-			catch (java.lang.ArrayIndexOutOfBoundsException ex) {}
+			catch (java.lang.ArrayIndexOutOfBoundsException | InterruptedException ex) {}
 		}
-		public void keyReleased(KeyEvent arg0) {
-		}
-		public void keyTyped(KeyEvent arg0) {
-		}
+		public void keyReleased(KeyEvent arg0) {}
+		public void keyTyped(KeyEvent arg0) {}
 		private boolean combatFini() {
 			return (ennemi.getHp() - 1 < 1 || perso.getHp() - 1 < 1);
 		}
