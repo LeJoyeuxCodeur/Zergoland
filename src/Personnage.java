@@ -68,7 +68,7 @@ public class Personnage {
 	public int getManaMax() {
 		return mpMax;
 	}
-	public boolean isWinner(){
-		return (getHp() - 1 < 1);
+	public boolean isWinner() {
+		return (getHp() > 1);
 	}
 }

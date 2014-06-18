@@ -457,21 +457,18 @@ public class FenetreDeJeu extends JFrame {
 		}
 		public void keyPressed(KeyEvent e) {
 			try {
-				if (combatFini()) {
-					ennemi.setHp(ennemi.getHpMax());
-					perso.setHp(perso.getHpMax());
+				if (combatFini()) { // Fin du combat
 					if (perso.isWinner())
 						perso.setXp(perso.getXp() + 10);
+					ennemi.setHp(ennemi.getHpMax());
+					perso.setHp(perso.getHpMax());
 					initCaracEnnemi();
 					initCaracPerso();
 					initMapJeu();
 				}
-
-				// ---- Tour Joueur --------------
-				if (tourDuJoueur) {
+				else if (tourDuJoueur) {
 					int x = coordPerso.width;
 					int y = coordPerso.height;
-
 					tourDuJoueur = false;
 
 					if (e.getKeyCode() == KeyEvent.VK_SPACE) { // Attaque
@@ -480,7 +477,7 @@ public class FenetreDeJeu extends JFrame {
 					}
 					else if (e.getKeyCode() == KeyEvent.VK_Z || e.getKeyCode() == KeyEvent.VK_UP) {
 						// Case apres
-						if (pattern[x - 1][y] == 0) {
+						if (labels[x - 1][y].getIcon() == Constante.caseVideCombat) {
 							map[x - 1][y].setSkin(Constante.casePersoAttaque); // deplacement du perso
 							coordPerso = new Dimension(x - 1, y); // update coord
 
@@ -490,10 +487,12 @@ public class FenetreDeJeu extends JFrame {
 							// Case avant
 							map[x][y].setSkin(Constante.caseVideCombat);
 						}
+						else
+							tourDuJoueur = true;
 					}
 					else if (e.getKeyCode() == KeyEvent.VK_Q || e.getKeyCode() == KeyEvent.VK_LEFT) {
 						// Case apres
-						if (pattern[x][y - 1] == 0) {
+						if (labels[x][y - 1].getIcon() == Constante.caseVideCombat) {
 							map[x][y - 1].setSkin(Constante.casePersoAttaque); // deplacement du perso
 							coordPerso = new Dimension(x, y - 1); // update coord
 
@@ -503,10 +502,12 @@ public class FenetreDeJeu extends JFrame {
 							// Case avant
 							map[x][y].setSkin(Constante.caseVideCombat);
 						}
+						else
+							tourDuJoueur = true;
 					}
 					else if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN) {
 						// Case apres
-						if (pattern[x + 1][y] == 0) {
+						if (labels[x + 1][y].getIcon() == Constante.caseVideCombat) {
 							map[x + 1][y].setSkin(Constante.casePersoAttaque); // deplacement du perso
 							coordPerso = new Dimension(x + 1, y); // update coord
 
@@ -516,10 +517,12 @@ public class FenetreDeJeu extends JFrame {
 							// Case avant
 							map[x][y].setSkin(Constante.caseVideCombat);
 						}
+						else
+							tourDuJoueur = true;
 					}
 					else if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT) {
 						// Case apres
-						if (pattern[x][y + 1] == 0) {
+						if (labels[x][y + 1].getIcon() == Constante.caseVideCombat) {
 							map[x][y + 1].setSkin(Constante.casePersoAttaque); // deplacement du perso
 							coordPerso = new Dimension(x, y + 1); // update coord
 
@@ -529,6 +532,8 @@ public class FenetreDeJeu extends JFrame {
 							// Case avant
 							map[x][y].setSkin(Constante.caseVideCombat);
 						}
+						else
+							tourDuJoueur = true;
 					}
 					else
 						tourDuJoueur = true;
@@ -537,9 +542,6 @@ public class FenetreDeJeu extends JFrame {
 
 					// repaint
 					panelMap.paintImmediately(0, 0, panelMap.getWidth(), panelMap.getHeight());
-
-					// pause
-					Thread.sleep(500);
 
 					// ----- Tour IA -------------------------
 					while (!tourDuJoueur) {
@@ -551,7 +553,7 @@ public class FenetreDeJeu extends JFrame {
 						if (r.nextBoolean()) { // Déplacement
 							if (choix == 1) {
 								// Case apres
-								if (pattern[x - 1][y] == 0) {
+								if (labels[x - 1][y].getIcon() == Constante.caseVideCombat) {
 									map[x - 1][y].setSkin(Constante.zombie_att); // deplacement du perso
 									coordEnnemi = new Dimension(x - 1, y); // update coord
 
@@ -565,7 +567,7 @@ public class FenetreDeJeu extends JFrame {
 							}
 							else if (choix == 2) {
 								// Case apres
-								if (pattern[x][y - 1] == 0) {
+								if (labels[x][y - 1].getIcon() == Constante.caseVideCombat) {
 									map[x][y - 1].setSkin(Constante.zombie_att); // deplacement du perso
 									coordEnnemi = new Dimension(x, y - 1); // update coord
 
@@ -579,7 +581,7 @@ public class FenetreDeJeu extends JFrame {
 							}
 							else if (choix == 3) {
 								// Case apres
-								if (pattern[x + 1][y] == 0) {
+								if (labels[x + 1][y].getIcon() == Constante.caseVideCombat) {
 									map[x + 1][y].setSkin(Constante.zombie_att); // deplacement du perso
 									coordEnnemi = new Dimension(x + 1, y); // update coord
 
@@ -593,7 +595,7 @@ public class FenetreDeJeu extends JFrame {
 							}
 							else {
 								// Case apres
-								if (pattern[x][y + 1] == 0) {
+								if (labels[x][y + 1].getIcon() == Constante.caseVideCombat) {
 									map[x][y + 1].setSkin(Constante.zombie_att); // deplacement du perso
 									coordEnnemi = new Dimension(x, y + 1); // update coord
 
@@ -608,7 +610,7 @@ public class FenetreDeJeu extends JFrame {
 							// Ajout au label
 							labels[x][y].setIcon(map[x][y].getSkin());
 						}
-						if (r.nextBoolean()) { // Attaque
+						else { // Attaque
 							tourDuJoueur = true;
 							perso.setHp(perso.getHp() - 1);
 							initCaracPerso();
@@ -616,7 +618,7 @@ public class FenetreDeJeu extends JFrame {
 					}
 				}
 			}
-			catch (java.lang.ArrayIndexOutOfBoundsException | InterruptedException ex) {}
+			catch (java.lang.ArrayIndexOutOfBoundsException ex) {}
 		}
 		public void keyReleased(KeyEvent arg0) {}
 		public void keyTyped(KeyEvent arg0) {}
