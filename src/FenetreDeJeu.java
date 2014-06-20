@@ -610,7 +610,7 @@ public class FenetreDeJeu extends JFrame {
 							// Ajout au label
 							labels[x][y].setIcon(map[x][y].getSkin());
 						}
-						else { // Attaque
+						if(r.nextBoolean()) { // Attaque
 							tourDuJoueur = true;
 							perso.setHp(perso.getHp() - 1);
 							initCaracPerso();
