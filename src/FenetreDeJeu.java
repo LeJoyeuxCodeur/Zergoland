@@ -542,6 +542,9 @@ public class FenetreDeJeu extends JFrame {
 
 					// repaint
 					panelMap.paintImmediately(0, 0, panelMap.getWidth(), panelMap.getHeight());
+					
+					// pause entre les deux joueurs
+					Thread.sleep(600);
 
 					// ----- Tour IA -------------------------
 					while (!tourDuJoueur) {
@@ -618,7 +621,7 @@ public class FenetreDeJeu extends JFrame {
 					}
 				}
 			}
-			catch (java.lang.ArrayIndexOutOfBoundsException ex) {}
+			catch (java.lang.ArrayIndexOutOfBoundsException | InterruptedException ex) {}
 		}
 		public void keyReleased(KeyEvent arg0) {}
 		public void keyTyped(KeyEvent arg0) {}
