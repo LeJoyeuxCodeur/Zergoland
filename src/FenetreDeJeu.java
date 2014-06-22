@@ -52,6 +52,7 @@ public class FenetreDeJeu extends JFrame {
 	private JProgressBar manaEnnemi = new JProgressBar(0, ennemi.getManaMax());
 	private Inventaire inventaire = new Inventaire();
 	private boolean tourDuJoueur = true;
+	private JButton abandon = new JButton("Abandonner");
 
 	public FenetreDeJeu() {
 		super("ZergoLand");
@@ -137,6 +138,10 @@ public class FenetreDeJeu extends JFrame {
 			}
 		});
 		panelCarac.add(inventaire);
+
+		// espacements
+		panelCarac.add(new JLabel(" "));
+		panelCarac.add(new JLabel(" "));
 	}
 	private void addCaracEnemi() {
 		// Vita
@@ -310,6 +315,8 @@ public class FenetreDeJeu extends JFrame {
 		panelMap.removeAll();
 		removeKeyListener(listenerCombat);
 		initListenerJeu();
+		panelCarac.revalidate();
+		panelCarac.repaint();
 
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
@@ -368,6 +375,21 @@ public class FenetreDeJeu extends JFrame {
 				panelMap.add(labels[i][j]);
 			}
 		}
+		// listener bouton abandon
+		abandon.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				panelCarac.remove(abandon);
+				ennemi.setHp(ennemi.getHpMax());
+				perso.setHp(perso.getHpMax());
+				initCaracEnnemi();
+				initCaracPerso();
+				initMapJeu();
+			}
+		});
+		// Ajout bouton abandon
+		panelCarac.add(abandon);
+		panelCarac.revalidate();
+		panelCarac.repaint();
 		panelMap.repaint();
 	}
 
@@ -439,10 +461,10 @@ public class FenetreDeJeu extends JFrame {
 	}
 
 	private class ListenerModeCombat extends MouseAdapter implements KeyListener {
-		public void mouseClicked(MouseEvent e){
+		public void mouseClicked(MouseEvent e) {
 			int x = e.getY() / 45;
 			int y = e.getX() / 50;
-			
+
 			if (combatFini()) { // Fin du combat
 				if (perso.isWinner())
 					perso.setXp(perso.getXp() + 10);
@@ -457,13 +479,13 @@ public class FenetreDeJeu extends JFrame {
 				tourDuJoueur = false;
 				ennemi.setHp(ennemi.getHp() - 1);
 				initCaracEnnemi();
-				
+
 				// pause entre les deux joueurs
 				try {
 					Thread.sleep(200);
 				}
 				catch (InterruptedException e1) {}
-			
+
 				// IA
 				tourIA();
 			}
@@ -568,7 +590,7 @@ public class FenetreDeJeu extends JFrame {
 
 					// repaint
 					panelMap.paintImmediately(0, 0, panelMap.getWidth(), panelMap.getHeight());
-					
+
 					// pause entre les deux joueurs
 					Thread.sleep(200);
 
@@ -584,6 +606,7 @@ public class FenetreDeJeu extends JFrame {
 			return (ennemi.getHp() - 1 < 1 || perso.getHp() - 1 < 1);
 		}
 	}
+
 	public void tourIA() {
 		while (!tourDuJoueur) {
 			Random r = new Random();
@@ -651,11 +674,11 @@ public class FenetreDeJeu extends JFrame {
 				// Ajout au label
 				labels[x][y].setIcon(map[x][y].getSkin());
 			}
-			if(r.nextBoolean()) { // Attaque
+			if (r.nextBoolean()) { // Attaque
 				tourDuJoueur = true;
 				perso.setHp(perso.getHp() - 1);
 				initCaracPerso();
 			}
-		}		
+		}
 	}
 }
