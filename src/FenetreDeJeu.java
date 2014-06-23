@@ -375,6 +375,13 @@ public class FenetreDeJeu extends JFrame {
 				panelMap.add(labels[i][j]);
 			}
 		}
+		panelMap.repaint();
+		
+		// Ajout bouton abandon
+		panelCarac.add(abandon);
+		panelCarac.revalidate();
+		panelCarac.repaint();
+		
 		// listener bouton abandon
 		abandon.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -386,11 +393,6 @@ public class FenetreDeJeu extends JFrame {
 				initMapJeu();
 			}
 		});
-		// Ajout bouton abandon
-		panelCarac.add(abandon);
-		panelCarac.revalidate();
-		panelCarac.repaint();
-		panelMap.repaint();
 	}
 
 	private class ListenerModeJeu implements KeyListener {
