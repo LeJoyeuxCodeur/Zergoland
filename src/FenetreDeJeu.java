@@ -376,16 +376,17 @@ public class FenetreDeJeu extends JFrame {
 			}
 		}
 		panelMap.repaint();
-		
+
 		// Ajout bouton abandon
 		panelCarac.add(abandon);
 		panelCarac.revalidate();
 		panelCarac.repaint();
-		
+
 		// listener bouton abandon
 		abandon.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				panelCarac.remove(abandon);
+				abandon.removeActionListener(this);
 				ennemi.setHp(ennemi.getHpMax());
 				perso.setHp(perso.getHpMax());
 				initCaracEnnemi();
@@ -399,7 +400,6 @@ public class FenetreDeJeu extends JFrame {
 		public void keyPressed(KeyEvent e) {
 			int x = coordPerso.width;
 			int y = coordPerso.height;
-			System.out.println("toto");
 
 			try {
 				if (e.getKeyCode() == KeyEvent.VK_Z || e.getKeyCode() == KeyEvent.VK_UP) {
