@@ -399,6 +399,7 @@ public class FenetreDeJeu extends JFrame {
 		public void keyPressed(KeyEvent e) {
 			int x = coordPerso.width;
 			int y = coordPerso.height;
+			System.out.println("toto");
 
 			try {
 				if (e.getKeyCode() == KeyEvent.VK_Z || e.getKeyCode() == KeyEvent.VK_UP) {
