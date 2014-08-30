@@ -1,12 +1,11 @@
-
 public class Porte {
 
 	private int destination; //code de teleportation
 
 	private String libelle;
-	
+
 	public Porte(int destination, String libelle) {
-		this.destination=destination;
+		this.destination = destination;
 		this.setLibelle(libelle);
 	}
 	public int getDestination() {
