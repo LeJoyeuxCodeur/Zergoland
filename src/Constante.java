@@ -4,7 +4,7 @@ import javax.swing.ImageIcon;
 
 public class Constante {
 	public static final Image LOGO = new ImageIcon("ressources/images/logo/logo.png").getImage();
-	public static final int CASES_X = 15;
+	public static final int CASES_X = 14;
 	public static final int CASES_Y = 22;
 	public static final int HP_BASE = 100;
 	public static final int MP_BASE = 20;

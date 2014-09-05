@@ -40,7 +40,7 @@ public class FenetreDeJeu extends JFrame {
 	private ListenerModeJeu listenerJeu = new ListenerModeJeu();
 	private ListenerModeCombat listenerCombat = new ListenerModeCombat();
 	private Dimension coordPerso, coordEnnemi;
-	private JPanel panelMap = new JPanel(), panelCarac = new JPanel();
+	private JPanel panelMap = new JPanel(), panelCarac = new JPanel(), panelBarre = new JPanel();
 	private JLabel lvlPerso = new JLabel(), orPerso = new JLabel();
 	private JInternalFrame frameInventaire;
 	private Personnage perso = new Personnage("Personnage_Test");
@@ -60,6 +60,7 @@ public class FenetreDeJeu extends JFrame {
 		initComposants();
 		initIventaire();
 		initMapJeu();
+		initBarre();
 		initCaracPerso();
 		initCaracEnnemi();
 		addCaracPerso();
@@ -394,6 +395,17 @@ public class FenetreDeJeu extends JFrame {
 				initMapJeu();
 			}
 		});
+	}
+	
+	private void initBarre() {
+		panelBarre.setPreferredSize(new Dimension(45, 45));
+		add(panelBarre, BorderLayout.SOUTH);
+		JButton bun = new JButton(Constante.potion_sante.getImage());
+		JButton bdeux = new JButton(Constante.potion_mana.getImage());
+		bun.setPreferredSize(new Dimension(35,35));
+		bdeux.setPreferredSize(new Dimension(35,35));
+		panelBarre.add(bun);
+		panelBarre.add(bdeux);
 	}
 
 	private class ListenerModeJeu implements KeyListener {
