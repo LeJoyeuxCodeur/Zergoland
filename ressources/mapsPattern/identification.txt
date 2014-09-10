@@ -8,3 +8,11 @@
 7 : Barrière
 8 : Coffre Ouvert
 9 : Zombie
+10 : PorteChateau
+11 : HautPorteChateau
+12 : TourBD
+13 : TourHD
+14 : TourHG
+15 : TourBG
+16 : Tour HH
+17 : Rock

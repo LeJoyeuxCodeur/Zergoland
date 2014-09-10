@@ -26,6 +26,14 @@ public class Constante {
 	public static final ImageIcon coffreOuvert = new ImageIcon("ressources/images/cases/modeJeu/coffreOuvert.png");
 	public static final ImageIcon barriere = new ImageIcon("ressources/images/cases/modeJeu/barriere.png");
 	public static final ImageIcon zombie_depl = new ImageIcon("ressources/images/cases/modeJeu/zombie.png");
+	public static final ImageIcon chateauPorte = new ImageIcon("ressources/images/cases/modeJeu/PorteChateau.png");
+	public static final ImageIcon hautPorteChateau = new ImageIcon("ressources/images/cases/modeJeu/PorteChateauHaut.png");
+	public static final ImageIcon TourBD = new ImageIcon("ressources/images/cases/modeJeu/TourBD.png");
+	public static final ImageIcon TourHD = new ImageIcon("ressources/images/cases/modeJeu/TourHD.png");
+	public static final ImageIcon TourHG = new ImageIcon("ressources/images/cases/modeJeu/TourHG.png");
+	public static final ImageIcon TourBG = new ImageIcon("ressources/images/cases/modeJeu/TourBG.png");
+	public static final ImageIcon TourHH = new ImageIcon("ressources/images/cases/modeJeu/TourHH.png");
+	public static final ImageIcon rock = new ImageIcon("ressources/images/cases/modeJeu/Rock.png");
 	
 	// Mode combat
 	public static final ImageIcon casePersoAttaque = new ImageIcon("ressources/images/cases/modeCombat/Bryan2.png");

@@ -346,7 +346,23 @@ public class FenetreDeJeu extends JFrame {
 					map[i][j] = new Case(Constante.coffreOuvert);
 				else if (pattern[i][j] == 9)
 					map[i][j] = new Case(Constante.zombie_depl);
-
+				else if (pattern[i][j] == 10)
+					map[i][j] = new Case(Constante.chateauPorte);
+				else if (pattern[i][j] == 11)
+					map[i][j] = new Case(Constante.hautPorteChateau);
+				else if (pattern[i][j] == 12)
+					map[i][j] = new Case(Constante.TourBD);
+				else if (pattern[i][j] == 13)
+					map[i][j] = new Case(Constante.TourHD);
+				else if (pattern[i][j] == 14)
+					map[i][j] = new Case(Constante.TourHG);
+				else if (pattern[i][j] == 15)
+					map[i][j] = new Case(Constante.TourBG);
+				else if (pattern[i][j] == 16)
+					map[i][j] = new Case(Constante.TourHH);
+				else if (pattern[i][j] == 17)
+					map[i][j] = new Case(Constante.rock);
+				
 				labels[i][j].setIcon(map[i][j].getSkin());
 				panelMap.add(labels[i][j]);
 				add(panelMap, BorderLayout.WEST);
