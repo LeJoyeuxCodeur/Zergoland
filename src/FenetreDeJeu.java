@@ -58,9 +58,10 @@ public class FenetreDeJeu extends JFrame {
 		super("ZergoLand");
 		setLayout(new BorderLayout());
 		initComposants();
-		initIventaire();
-		initMapJeu();
+		ajoutObjetsDansInventaire();
+		initInventaire();
 		initBarreRapide();
+		initMapJeu();
 		initCaracPerso();
 		initCaracEnnemi();
 		addCaracPerso();
@@ -117,7 +118,7 @@ public class FenetreDeJeu extends JFrame {
 		panelCarac.add(new JLabel(" "));
 
 		// xp
-		xpPerso.setValue(perso.getXp()/Constante.RAPPORT_XP_LVL1);
+		xpPerso.setValue(perso.getXp() / Constante.RAPPORT_XP_LVL1);
 		xpPerso.setForeground(Color.black);
 		xpPerso.setStringPainted(true);
 		xpPerso.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.black));
@@ -179,7 +180,7 @@ public class FenetreDeJeu extends JFrame {
 
 		// xp
 		xpPerso.setString(perso.getXp() + "/" + 500);
-		xpPerso.setValue(perso.getXp()/Constante.RAPPORT_XP_LVL1);
+		xpPerso.setValue(perso.getXp() / Constante.RAPPORT_XP_LVL1);
 
 		// Or
 		orPerso.setText("Or:    " + perso.getOr() + " pièces");
@@ -200,14 +201,12 @@ public class FenetreDeJeu extends JFrame {
 		inventaire.ajoutItem(Constante.potion_mana, 8);
 		inventaire.ajoutItem(Constante.potion_sante, 8);
 	}
-	private void initIventaire() {
+	private void initInventaire() {
 		frameInventaire = new JInternalFrame("Inventaire", false, true, false);
 		frameInventaire.setBackground(Color.white);
 		frameInventaire.addInternalFrameListener(new InternalFrameListener() {
 			public void internalFrameOpened(InternalFrameEvent arg0) {
 				int taille = 0;
-
-				ajoutObjetsDansInventaire();
 
 				Map<Item, Integer> inv = inventaire.getInventaire();
 				Set<Item> keysList = inv.keySet();
@@ -362,7 +361,7 @@ public class FenetreDeJeu extends JFrame {
 					map[i][j] = new Case(Constante.TourHH);
 				else if (pattern[i][j] == 17)
 					map[i][j] = new Case(Constante.rock);
-				
+
 				labels[i][j].setIcon(map[i][j].getSkin());
 				panelMap.add(labels[i][j]);
 				add(panelMap, BorderLayout.WEST);
@@ -414,18 +413,32 @@ public class FenetreDeJeu extends JFrame {
 		});
 	}
 	private void initBarreRapide() {
-		JButton bun = new JButton(Constante.potion_sante.getImage());
-		JButton bdeux = new JButton(Constante.potion_mana.getImage());
 		Font f = new Font("Arial", Font.PLAIN, 18);
+		Map<Item, Integer> inv = inventaire.getInventaire();
+		Set<Item> keysList = inv.keySet();
+		Collection<Integer> valuesList = inv.values();
+		Item[] keys = keysList.toArray(new Item[keysList.size()]);
+		Integer[] values = valuesList.toArray(new Integer[valuesList.size()]);
+		int taille = 0;
+		JButton[] tab;
+
+		for (int i = 0; i < inv.size(); i++)
+			taille += values[i];
+		tab = new JButton[taille];
 
 		panelBarreRapide.setPreferredSize(new Dimension(45, 45));
 		panelBarreRapide.setBorder(BorderFactory.createTitledBorder(null, null, TitledBorder.CENTER, TitledBorder.TOP, f, Color.BLACK));
 		panelBarreRapide.setBackground(new Color(250, 240, 230));
+
+		for (int i = 0; i < keys.length; i++) {
+			for (int j = 0; j < values[i]; j++) {
+				tab[j] = new JButton();
+				tab[j].setPreferredSize(new Dimension(35, 35));
+				tab[j].setIcon(keys[i].getImage());
+				panelBarreRapide.add(tab[j]);
+			}
+		}
 		add(panelBarreRapide, BorderLayout.SOUTH);
-		bun.setPreferredSize(new Dimension(35, 35));
-		bdeux.setPreferredSize(new Dimension(35, 35));
-		panelBarreRapide.add(bun);
-		panelBarreRapide.add(bdeux);
 	}
 
 	private class ListenerModeJeu implements KeyListener {
