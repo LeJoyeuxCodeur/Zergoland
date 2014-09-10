@@ -322,7 +322,7 @@ public class FenetreDeJeu extends JFrame {
 
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
-				if (i == 3 && j == 8) {
+				if (i == 3 && j == 9) {
 					map[i][j] = new Case(Constante.casePersoDeplacement);
 					coordPerso = new Dimension(i, j);
 				}

@@ -12,7 +12,7 @@ public class Constante {
 	public static final int OR_BASE = 0;
 	public static final int LVL_BASE = 1;
 	public static final int MP_MAX = 100;
-	public static final String MAP = "ressources/mapsPattern/mapTest2.txt";
+	public static final String MAP = "ressources/mapsPattern/mapTest3.txt";
 	
 	// Mode Jeu
 	public static final ImageIcon caseVideDeplacement = new ImageIcon("ressources/images/cases/modeJeu/CaseVide.png");
