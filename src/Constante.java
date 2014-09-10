@@ -9,6 +9,8 @@ public class Constante {
 	public static final int HP_BASE = 100;
 	public static final int MP_BASE = 20;
 	public static final int XP_BASE = 20;
+	public static final int XPMAX_LVL1 = 500;
+	public static final int RAPPORT_XP_LVL1 = 5;
 	public static final int OR_BASE = 0;
 	public static final int LVL_BASE = 1;
 	public static final int MP_MAX = 100;

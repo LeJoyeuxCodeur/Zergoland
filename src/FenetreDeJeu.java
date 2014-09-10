@@ -117,7 +117,7 @@ public class FenetreDeJeu extends JFrame {
 		panelCarac.add(new JLabel(" "));
 
 		// xp
-		xpPerso.setValue(perso.getXp());
+		xpPerso.setValue(perso.getXp()/Constante.RAPPORT_XP_LVL1);
 		xpPerso.setForeground(Color.black);
 		xpPerso.setStringPainted(true);
 		xpPerso.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.black));
@@ -179,7 +179,7 @@ public class FenetreDeJeu extends JFrame {
 
 		// xp
 		xpPerso.setString(perso.getXp() + "/" + 500);
-		xpPerso.setValue(perso.getXp());
+		xpPerso.setValue(perso.getXp()/Constante.RAPPORT_XP_LVL1);
 
 		// Or
 		orPerso.setText("Or:    " + perso.getOr() + " pièces");
@@ -502,7 +502,7 @@ public class FenetreDeJeu extends JFrame {
 
 			if (combatFini()) { // Fin du combat
 				if (perso.isWinner())
-					perso.setXp(perso.getXp() + 10);
+					perso.setXp(perso.getXp() + 100);
 				ennemi.setHp(ennemi.getHpMax());
 				perso.setHp(perso.getHpMax());
 				initCaracEnnemi();
@@ -512,7 +512,7 @@ public class FenetreDeJeu extends JFrame {
 			else if (labels[x][y].getIcon() == Constante.zombie_att) {
 				// Joueur
 				tourDuJoueur = false;
-				ennemi.setHp(ennemi.getHp() - 1);
+				ennemi.setHp(ennemi.getHp() - 10);
 				initCaracEnnemi();
 
 				// pause entre les deux joueurs
@@ -546,7 +546,7 @@ public class FenetreDeJeu extends JFrame {
 			try {
 				if (combatFini()) { // Fin du combat
 					if (perso.isWinner())
-						perso.setXp(perso.getXp() + 10);
+						perso.setXp(perso.getXp() + 100);
 					ennemi.setHp(ennemi.getHpMax());
 					perso.setHp(perso.getHpMax());
 					initCaracEnnemi();
