@@ -220,7 +220,9 @@ public class FenetreDeJeu extends JFrame {
 
 				for (int i = 0; i < inv.size(); i++) {
 					for (int j = 0; j < values[i]; j++) {
-						JLabel tmp = new JLabel(keys[i].getImage());
+						JButton tmp = new JButton();
+						tmp.setBackground(Color.white);
+						tmp.setIcon(keys[i].getImage());
 
 						tmp.setBorder(BorderFactory.createLineBorder(Color.black, 2));
 						frameInventaire.add(tmp);
