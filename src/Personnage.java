@@ -1,7 +1,10 @@
+import javax.swing.JProgressBar;
+
 public class Personnage {
 	private String nom;
 	private int xp, hp, mp, hpMax, mpMax, or, lvl;
 	private Inventaire bag;
+	private JProgressBar barreVita, barreMana, barreXp;
 
 	public Personnage(String nom) {
 		this.nom = nom;
@@ -12,6 +15,9 @@ public class Personnage {
 		mp = Constante.MP_BASE;
 		mpMax = Constante.MP_MAX;
 		or = Constante.OR_BASE;
+		barreVita = new JProgressBar(0, getHpMax());
+		barreMana = new JProgressBar(0, getManaMax());
+		barreXp = new JProgressBar(0, getHpMax());
 		bag = new Inventaire();
 	}
 	public String getNom() {
@@ -70,5 +76,14 @@ public class Personnage {
 	}
 	public boolean isWinner() {
 		return (getHp() > 1);
+	}
+	public JProgressBar getBarreVita() {
+		return barreVita;
+	}
+	public JProgressBar getBarreMana() {
+		return barreMana;
+	}
+	public JProgressBar getBarreXp() {
+		return barreXp;
 	}
 }

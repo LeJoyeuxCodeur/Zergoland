@@ -12,10 +12,7 @@ import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -26,48 +23,45 @@ import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.JProgressBar;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.InternalFrameEvent;
-import javax.swing.event.InternalFrameListener;
 
 public class FenetreDeJeu extends JFrame {
 	private static final long serialVersionUID = 1L;
+	private int[][] pattern;
 	private Case[][] map;
 	private JLabel[][] labels;
-	private BufferedReader reader;
-	private int[][] pattern;
+	private JInternalFrame frameInventaire = new JInternalFrame("Inventaire", false, true, false);
 	private ListenerModeJeu listenerJeu = new ListenerModeJeu();
 	private ListenerModeCombat listenerCombat = new ListenerModeCombat();
 	private Dimension coordPerso, coordEnnemi;
-	private JPanel panelMap = new JPanel(), panelCarac = new JPanel(), panelBarreRapide = new JPanel();
+	private JPanel panelMap = new JPanel(), panelCarac = new JPanel();
 	private JLabel lvlPerso = new JLabel(), orPerso = new JLabel();
-	private JInternalFrame frameInventaire;
 	private Personnage perso = new Personnage("Personnage_Test");
 	private Personnage ennemi = new Personnage("Ennemi");
-	private JProgressBar vitaPerso = new JProgressBar(0, perso.getHpMax());
-	private JProgressBar manaPerso = new JProgressBar(0, perso.getManaMax());
-	private JProgressBar xpPerso = new JProgressBar(0, perso.getHpMax());
-	private JProgressBar vitaEnnemi = new JProgressBar(0, ennemi.getHpMax());
-	private JProgressBar manaEnnemi = new JProgressBar(0, ennemi.getManaMax());
 	private Inventaire inventaire = new Inventaire();
+	private BarreRapide barreRapide = new BarreRapide(inventaire, this);
 	private boolean tourDuJoueur = true;
 	private JButton abandon = new JButton("Abandonner");
 
 	public FenetreDeJeu() {
 		super("ZergoLand");
 		setLayout(new BorderLayout());
-		initComposants();
-		ajoutObjetsDansInventaire();
-		initInventaire();
-		initBarreRapide();
-		initMapJeu();
-		initCaracPerso();
-		initCaracEnnemi();
+		initGeneral();
+		addGeneral();
+		initFenetre();
+	}
+	private void addGeneral() {
 		addCaracPerso();
 		addCaracEnemi();
 		add(panelCarac);
-		initFenetre();
+	}
+	private void initGeneral() {
+		initTerrain();
+		inventaire.initInventaire(frameInventaire, this);
+		barreRapide.initBarreRapide();
+		initMapJeu();
+		initCaracPerso();
+		initCaracEnnemi();
 	}
 	private void addCaracPerso() {
 		String s = "Caractéristiques";
@@ -98,34 +92,34 @@ public class FenetreDeJeu extends JFrame {
 		lvlPerso.setFont(new Font("Arial", Font.ITALIC, 22));
 
 		// Vita
-		vitaPerso.setStringPainted(true);
-		vitaPerso.setForeground(Color.RED);
-		vitaPerso.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.black));
+		perso.getBarreVita().setStringPainted(true);
+		perso.getBarreVita().setForeground(Color.RED);
+		perso.getBarreVita().setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.black));
 		tmp = new JLabel("Vitalité");
 		tmp.setFont(f);
 		panelCarac.add(tmp);
-		panelCarac.add(vitaPerso);
+		panelCarac.add(perso.getBarreVita());
 		panelCarac.add(new JLabel(" "));
 
 		// Mana
-		manaPerso.setForeground(Color.blue);
-		manaPerso.setStringPainted(true);
-		manaPerso.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.black));
+		perso.getBarreMana().setForeground(Color.blue);
+		perso.getBarreMana().setStringPainted(true);
+		perso.getBarreMana().setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.black));
 		tmp = new JLabel("Mana");
 		tmp.setFont(f);
 		panelCarac.add(tmp);
-		panelCarac.add(manaPerso);
+		panelCarac.add(perso.getBarreMana());
 		panelCarac.add(new JLabel(" "));
 
 		// xp
-		xpPerso.setValue(perso.getXp() / Constante.RAPPORT_XP_LVL1);
-		xpPerso.setForeground(Color.black);
-		xpPerso.setStringPainted(true);
-		xpPerso.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.black));
+		perso.getBarreXp().setValue(perso.getXp() / Constante.RAPPORT_XP_LVL1);
+		perso.getBarreXp().setForeground(Color.black);
+		perso.getBarreXp().setStringPainted(true);
+		perso.getBarreXp().setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.black));
 		tmp = new JLabel("XP");
 		tmp.setFont(f);
 		panelCarac.add(tmp);
-		panelCarac.add(xpPerso);
+		panelCarac.add(perso.getBarreXp());
 		panelCarac.add(new JLabel(" "));
 
 		// Or
@@ -148,44 +142,44 @@ public class FenetreDeJeu extends JFrame {
 	}
 	private void addCaracEnemi() {
 		// Vita
-		vitaEnnemi.setStringPainted(true);
-		vitaEnnemi.setForeground(Color.RED);
-		vitaEnnemi.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.black));
+		ennemi.getBarreVita().setStringPainted(true);
+		ennemi.getBarreVita().setForeground(Color.RED);
+		ennemi.getBarreVita().setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.black));
 
 		// Mana
-		manaEnnemi.setForeground(Color.blue);
-		manaEnnemi.setStringPainted(true);
-		manaEnnemi.setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.black));
+		ennemi.getBarreMana().setForeground(Color.blue);
+		ennemi.getBarreMana().setStringPainted(true);
+		ennemi.getBarreMana().setBorder(BorderFactory.createEtchedBorder(Color.BLUE, Color.black));
 	}
 	private void initCaracEnnemi() {
 		// Vita
-		vitaEnnemi.setString(ennemi.getHp() + "/" + perso.getHpMax());
-		vitaEnnemi.setValue(ennemi.getHp());
+		ennemi.getBarreVita().setString(ennemi.getHp() + "/" + perso.getHpMax());
+		ennemi.getBarreVita().setValue(ennemi.getHp());
 
 		// Mana
-		manaEnnemi.setString(ennemi.getMp() + "/" + ennemi.getManaMax());
-		manaEnnemi.setValue(ennemi.getMp());
+		ennemi.getBarreMana().setString(ennemi.getMp() + "/" + ennemi.getManaMax());
+		ennemi.getBarreMana().setValue(ennemi.getMp());
 	}
 	private void initCaracPerso() {
 		// Lvl
 		lvlPerso.setText("Lvl " + perso.getLvl());
 
 		// Vita
-		vitaPerso.setString(perso.getHp() + "/" + perso.getHpMax());
-		vitaPerso.setValue(perso.getHp());
+		perso.getBarreVita().setString(perso.getHp() + "/" + perso.getHpMax());
+		perso.getBarreVita().setValue(perso.getHp());
 
 		// Mana
-		manaPerso.setString(perso.getMp() + "/" + perso.getManaMax());
-		manaPerso.setValue(perso.getMp());
+		perso.getBarreMana().setString(perso.getMp() + "/" + perso.getManaMax());
+		perso.getBarreMana().setValue(perso.getMp());
 
 		// xp
-		xpPerso.setString(perso.getXp() + "/" + 500);
-		xpPerso.setValue(perso.getXp() / Constante.RAPPORT_XP_LVL1);
+		perso.getBarreXp().setString(perso.getXp() + "/" + 500);
+		perso.getBarreXp().setValue(perso.getXp() / Constante.RAPPORT_XP_LVL1);
 
 		// Or
 		orPerso.setText("Or:    " + perso.getOr() + " pièces");
 	}
-	private void initComposants() {
+	private void initTerrain() {
 		panelMap.setLayout(new GridLayout(Constante.CASES_X, Constante.CASES_Y));
 		map = new Case[Constante.CASES_X][Constante.CASES_Y];
 		labels = new JLabel[Constante.CASES_X][Constante.CASES_Y];
@@ -196,55 +190,6 @@ public class FenetreDeJeu extends JFrame {
 				labels[i][j] = new JLabel();
 			}
 		}
-	}
-	private void ajoutObjetsDansInventaire() {
-		inventaire.ajoutItem(Constante.potion_mana, 8);
-		inventaire.ajoutItem(Constante.potion_sante, 8);
-	}
-	private void initInventaire() {
-		frameInventaire = new JInternalFrame("Inventaire", false, true, false);
-		frameInventaire.setBackground(Color.white);
-		frameInventaire.addInternalFrameListener(new InternalFrameListener() {
-			public void internalFrameOpened(InternalFrameEvent arg0) {
-				int taille = 0;
-
-				Map<Item, Integer> inv = inventaire.getInventaire();
-				Set<Item> keysList = inv.keySet();
-				Collection<Integer> valuesList = inv.values();
-				Item[] keys = keysList.toArray(new Item[keysList.size()]);
-				Integer[] values = valuesList.toArray(new Integer[valuesList.size()]);
-
-				for (int i = 0; i < inv.size(); i++)
-					taille += values[i];
-				frameInventaire.setLayout(new GridLayout(3, taille));
-
-				for (int i = 0; i < inv.size(); i++) {
-					for (int j = 0; j < values[i]; j++) {
-						JButton tmp = new JButton();
-						tmp.setBackground(Color.white);
-						tmp.setIcon(keys[i].getImage());
-
-						tmp.setBorder(BorderFactory.createLineBorder(Color.black, 2));
-						frameInventaire.add(tmp);
-					}
-				}
-				frameInventaire.setLocation(775, 470);
-				frameInventaire.setSize(500, 200);
-			}
-			public void internalFrameIconified(InternalFrameEvent arg0) {}
-			public void internalFrameDeiconified(InternalFrameEvent arg0) {}
-			public void internalFrameDeactivated(InternalFrameEvent arg0) {}
-			public void internalFrameClosing(InternalFrameEvent arg0) {}
-			public void internalFrameClosed(InternalFrameEvent arg0) {
-				setFocusable(true);
-				requestFocusInWindow();
-			}
-			public void internalFrameActivated(InternalFrameEvent arg0) {
-				setFocusable(true);
-				requestFocusInWindow();
-			}
-		});
-		add(frameInventaire);
 	}
 	private void initListenerJeu() {
 		setFocusable(true);
@@ -300,6 +245,7 @@ public class FenetreDeJeu extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	private void initReader(String map) {
+		BufferedReader reader;
 		String[] patternTmp = null;
 		int cpt = 0;
 		try {
@@ -414,33 +360,79 @@ public class FenetreDeJeu extends JFrame {
 			}
 		});
 	}
-	private void initBarreRapide() {
-		Font f = new Font("Arial", Font.PLAIN, 18);
-		Map<Item, Integer> inv = inventaire.getInventaire();
-		Set<Item> keysList = inv.keySet();
-		Collection<Integer> valuesList = inv.values();
-		Item[] keys = keysList.toArray(new Item[keysList.size()]);
-		Integer[] values = valuesList.toArray(new Integer[valuesList.size()]);
-		int taille = 0;
-		JButton[] tab;
+	public void tourIA() {
+		while (!tourDuJoueur) {
+			Random r = new Random();
+			int choix = r.nextInt(4) + 1;
+			int x = coordEnnemi.width;
+			int y = coordEnnemi.height;
 
-		for (int i = 0; i < inv.size(); i++)
-			taille += values[i];
-		tab = new JButton[taille];
+			if (r.nextBoolean()) { // Déplacement
+				if (choix == 1) {
+					// Case apres
+					if (labels[x - 1][y].getIcon() == Constante.caseVideCombat) {
+						map[x - 1][y].setSkin(Constante.zombie_att); // deplacement du perso
+						coordEnnemi = new Dimension(x - 1, y); // update coord
 
-		panelBarreRapide.setPreferredSize(new Dimension(45, 45));
-		panelBarreRapide.setBorder(BorderFactory.createTitledBorder(null, null, TitledBorder.CENTER, TitledBorder.TOP, f, Color.BLACK));
-		panelBarreRapide.setBackground(new Color(250, 240, 230));
+						// Ajout au label
+						labels[x - 1][y].setIcon(map[x - 1][y].getSkin());
 
-		for (int i = 0; i < keys.length; i++) {
-			for (int j = 0; j < values[i]; j++) {
-				tab[j] = new JButton();
-				tab[j].setPreferredSize(new Dimension(35, 35));
-				tab[j].setIcon(keys[i].getImage());
-				panelBarreRapide.add(tab[j]);
+						// Case avant
+						map[x][y].setSkin(Constante.caseVideCombat);
+						tourDuJoueur = true;
+					}
+				}
+				else if (choix == 2) {
+					// Case apres
+					if (labels[x][y - 1].getIcon() == Constante.caseVideCombat) {
+						map[x][y - 1].setSkin(Constante.zombie_att); // deplacement du perso
+						coordEnnemi = new Dimension(x, y - 1); // update coord
+
+						// Ajout au label
+						labels[x][y - 1].setIcon(map[x][y - 1].getSkin());
+
+						// Case avant
+						map[x][y].setSkin(Constante.caseVideCombat);
+						tourDuJoueur = true;
+					}
+				}
+				else if (choix == 3) {
+					// Case apres
+					if (labels[x + 1][y].getIcon() == Constante.caseVideCombat) {
+						map[x + 1][y].setSkin(Constante.zombie_att); // deplacement du perso
+						coordEnnemi = new Dimension(x + 1, y); // update coord
+
+						// Ajout au label
+						labels[x + 1][y].setIcon(map[x + 1][y].getSkin());
+
+						// Case avant
+						map[x][y].setSkin(Constante.caseVideCombat);
+						tourDuJoueur = true;
+					}
+				}
+				else {
+					// Case apres
+					if (labels[x][y + 1].getIcon() == Constante.caseVideCombat) {
+						map[x][y + 1].setSkin(Constante.zombie_att); // deplacement du perso
+						coordEnnemi = new Dimension(x, y + 1); // update coord
+
+						// Ajout au label
+						labels[x][y + 1].setIcon(map[x][y + 1].getSkin());
+
+						// Case avant
+						map[x][y].setSkin(Constante.caseVideCombat);
+						tourDuJoueur = true;
+					}
+				}
+				// Ajout au label
+				labels[x][y].setIcon(map[x][y].getSkin());
+			}
+			if (r.nextBoolean()) { // Attaque
+				tourDuJoueur = true;
+				perso.setHp(perso.getHp() - 1);
+				initCaracPerso();
 			}
 		}
-		add(panelBarreRapide, BorderLayout.SOUTH);
 	}
 
 	private class ListenerModeJeu implements KeyListener {
@@ -546,8 +538,8 @@ public class FenetreDeJeu extends JFrame {
 			int y = e.getX() / 50;
 
 			if (labels[x][y].getIcon() == Constante.zombie_att) {
-				panel.add(vitaEnnemi);
-				panel.add(manaEnnemi);
+				panel.add(ennemi.getBarreVita());
+				panel.add(ennemi.getBarreMana());
 				panel.show(panelMap, e.getX() - 50, e.getY() - 100);
 			}
 			else {
@@ -657,78 +649,4 @@ public class FenetreDeJeu extends JFrame {
 		}
 	}
 
-	public void tourIA() {
-		while (!tourDuJoueur) {
-			Random r = new Random();
-			int choix = r.nextInt(4) + 1;
-			int x = coordEnnemi.width;
-			int y = coordEnnemi.height;
-
-			if (r.nextBoolean()) { // Déplacement
-				if (choix == 1) {
-					// Case apres
-					if (labels[x - 1][y].getIcon() == Constante.caseVideCombat) {
-						map[x - 1][y].setSkin(Constante.zombie_att); // deplacement du perso
-						coordEnnemi = new Dimension(x - 1, y); // update coord
-
-						// Ajout au label
-						labels[x - 1][y].setIcon(map[x - 1][y].getSkin());
-
-						// Case avant
-						map[x][y].setSkin(Constante.caseVideCombat);
-						tourDuJoueur = true;
-					}
-				}
-				else if (choix == 2) {
-					// Case apres
-					if (labels[x][y - 1].getIcon() == Constante.caseVideCombat) {
-						map[x][y - 1].setSkin(Constante.zombie_att); // deplacement du perso
-						coordEnnemi = new Dimension(x, y - 1); // update coord
-
-						// Ajout au label
-						labels[x][y - 1].setIcon(map[x][y - 1].getSkin());
-
-						// Case avant
-						map[x][y].setSkin(Constante.caseVideCombat);
-						tourDuJoueur = true;
-					}
-				}
-				else if (choix == 3) {
-					// Case apres
-					if (labels[x + 1][y].getIcon() == Constante.caseVideCombat) {
-						map[x + 1][y].setSkin(Constante.zombie_att); // deplacement du perso
-						coordEnnemi = new Dimension(x + 1, y); // update coord
-
-						// Ajout au label
-						labels[x + 1][y].setIcon(map[x + 1][y].getSkin());
-
-						// Case avant
-						map[x][y].setSkin(Constante.caseVideCombat);
-						tourDuJoueur = true;
-					}
-				}
-				else {
-					// Case apres
-					if (labels[x][y + 1].getIcon() == Constante.caseVideCombat) {
-						map[x][y + 1].setSkin(Constante.zombie_att); // deplacement du perso
-						coordEnnemi = new Dimension(x, y + 1); // update coord
-
-						// Ajout au label
-						labels[x][y + 1].setIcon(map[x][y + 1].getSkin());
-
-						// Case avant
-						map[x][y].setSkin(Constante.caseVideCombat);
-						tourDuJoueur = true;
-					}
-				}
-				// Ajout au label
-				labels[x][y].setIcon(map[x][y].getSkin());
-			}
-			if (r.nextBoolean()) { // Attaque
-				tourDuJoueur = true;
-				perso.setHp(perso.getHp() - 1);
-				initCaracPerso();
-			}
-		}
-	}
 }
