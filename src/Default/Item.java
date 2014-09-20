@@ -1,3 +1,4 @@
+package Default;
 import javax.swing.ImageIcon;
 
 public class Item {

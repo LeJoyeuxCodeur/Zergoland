@@ -1,3 +1,4 @@
+package Default;
 import java.util.LinkedList;
 
 public class Coffre {

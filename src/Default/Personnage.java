@@ -1,3 +1,4 @@
+package Default;
 import javax.swing.JProgressBar;
 
 public class Personnage {

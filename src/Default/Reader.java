@@ -1,3 +1,4 @@
+package Default;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -9,7 +10,6 @@ public class Reader {
 		String[] patternTmp = null;
 		int cpt = 0;
 		try {
-			pattern = new int[Constante.CASES_X][Constante.CASES_Y];
 			reader = new BufferedReader(new FileReader(map));
 			while (reader.ready()) {
 				patternTmp = reader.readLine().split(",");

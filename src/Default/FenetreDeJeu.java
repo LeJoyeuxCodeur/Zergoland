@@ -1,3 +1,4 @@
+package Default;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -9,9 +10,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.Random;
 
 import javax.swing.BorderFactory;
@@ -183,7 +181,8 @@ public class FenetreDeJeu extends JFrame {
 		panelMap.setLayout(new GridLayout(Constante.CASES_X, Constante.CASES_Y));
 		map = new Case[Constante.CASES_X][Constante.CASES_Y];
 		labels = new JLabel[Constante.CASES_X][Constante.CASES_Y];
-		initReader(Constante.MAP);
+		pattern = new int[Constante.CASES_X][Constante.CASES_Y];
+		new Reader().initReader(Constante.MAP, pattern);
 
 		for (int i = 0; i < labels.length; i++) {
 			for (int j = 0; j < labels[0].length; j++) {
@@ -243,22 +242,6 @@ public class FenetreDeJeu extends JFrame {
 		setLocationRelativeTo(null);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}
-	private void initReader(String map) {
-		BufferedReader reader;
-		String[] patternTmp = null;
-		int cpt = 0;
-		try {
-			pattern = new int[Constante.CASES_X][Constante.CASES_Y];
-			reader = new BufferedReader(new FileReader(map));
-			while (reader.ready()) {
-				patternTmp = reader.readLine().split(",");
-				for (int i = 0; i < patternTmp.length; i++)
-					pattern[cpt][i] = Integer.parseInt(patternTmp[i]);
-				cpt++;
-			}
-		}
-		catch (IOException e) {}
 	}
 	private void initMapJeu() {
 		panelMap.removeAll();

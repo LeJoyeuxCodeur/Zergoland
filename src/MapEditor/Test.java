@@ -1,3 +1,4 @@
+package MapEditor;
 import javax.swing.JFrame;
 
 

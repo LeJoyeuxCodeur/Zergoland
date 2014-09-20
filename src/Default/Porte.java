@@ -1,3 +1,4 @@
+package Default;
 public class Porte {
 
 	private int destination; //code de teleportation
